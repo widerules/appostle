@@ -19,6 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Vector;
 
 import nl.jalava.appostle.R;
 
@@ -50,8 +52,9 @@ public class MainActivity extends Activity {
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
 		context = getBaseContext();
 		
-		App[] app_data = new App[apps.size()];
-		
+		Vector<App> app_data = new Vector<App>();
+
+		int max = 20; // apps.size()
 		int i = 0;
 		for (PackageInfo pi: apps) {
 			ApplicationInfo ai = null;
@@ -61,20 +64,29 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			String name = (String) pm.getApplicationLabel(ai);
-			long updated = pi.lastUpdateTime;
-			String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
-			App app = new App(0, name + "\n" + pi.packageName + "\n" + dateString);
-			app.name = name;
-			app.icon = pm.getApplicationIcon(ai);
-			app.packageName = pi.packageName;
-			app.lastUpdateTime = updated;
-			app.firstInstallTime = pi.firstInstallTime;
-			app_data[i] = app;
-			i++;
+
+			if (ai.sourceDir.startsWith("/data/app/")) {
+				String name = (String) pm.getApplicationLabel(ai);
+				long updated = pi.lastUpdateTime;
+				//String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
+				String dateString = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date(updated));
+				App app = new App(0, name + "\n" + pi.packageName + "\n" + dateString);
+				app.name = name;
+				app.icon = pm.getApplicationIcon(ai);
+				app.packageName = pi.packageName;
+				app.lastUpdateTime = updated;
+				app.firstInstallTime = pi.firstInstallTime;
+				app_data.add(app);
+				i++;
+				if (i >= max) break;
+			}
 		}
-		
-        AppAdapter adapter = new AppAdapter(this, R.layout.app_row, app_data);
+
+		// Copy the Vector into the array.
+		App[] app_data2 = new App[app_data.size()];
+		app_data.copyInto(app_data2);
+	    
+        AppAdapter adapter = new AppAdapter(this, R.layout.app_row, app_data2);
         
         // Sort array by date descending.
         adapter.sort(new Comparator<App>() {
