@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="4dp" >
+    android:paddingBottom="4dp" >
 
     <ImageView
         android:id="@+id/app_image"
@@ -13,11 +13,12 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_vertical"
+        android:adjustViewBounds="false"
         android:cropToPadding="true"
         android:maxHeight="100dp"
         android:maxWidth="100dp"
         android:paddingRight="4dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerInside"
         android:src="@drawable/ic_launcher" />
 
     <TextView

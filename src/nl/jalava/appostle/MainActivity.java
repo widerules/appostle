@@ -103,7 +103,11 @@ public class MainActivity extends Activity {
         adapter.sort(new Comparator<App>() {
         	public int compare(App app1, App app2) {
         		int comp = 0;
-        		if (app1.lastUpdateTime > app2.lastUpdateTime) comp = -1;
+        		if (app1.lastUpdateTime > app2.lastUpdateTime) {
+        			comp = -1;
+        		} else if (app1.lastUpdateTime < app2.lastUpdateTime) {
+        			comp = 1;
+        		}
         		return comp;
         	}
 		});
