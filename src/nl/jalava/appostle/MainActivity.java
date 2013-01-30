@@ -15,6 +15,7 @@
  */
 package nl.jalava.appostle;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
@@ -35,6 +36,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -46,6 +48,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);  
+		setProgressBarIndeterminateVisibility(true); 		
+
 		setContentView(R.layout.activity_main);
 		
 		PackageManager pm = getPackageManager();
@@ -54,7 +60,7 @@ public class MainActivity extends Activity {
 		
 		Vector<App> app_data = new Vector<App>();
 
-		int max = 20; // apps.size()
+		int max = apps.size();
 		int i = 0;
 		for (PackageInfo pi: apps) {
 			ApplicationInfo ai = null;
@@ -67,9 +73,14 @@ public class MainActivity extends Activity {
 
 			if (ai.sourceDir.startsWith("/data/app/")) {
 				String name = (String) pm.getApplicationLabel(ai);
-				long updated = pi.lastUpdateTime;
+				//long updated = pi.lastUpdateTime;
+				
+				// Date from app directory.
+				String appFile = ai.sourceDir;
+				long updated = new File(appFile).lastModified();				
+				
 				//String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
-				String dateString = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date(updated));
+				String dateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(updated));
 				App app = new App(0, name + "\n" + pi.packageName + "\n" + dateString);
 				app.name = name;
 				app.icon = pm.getApplicationIcon(ai);
@@ -91,7 +102,7 @@ public class MainActivity extends Activity {
         // Sort array by date descending.
         adapter.sort(new Comparator<App>() {
         	public int compare(App app1, App app2) {
-        		int comp = 1;
+        		int comp = 0;
         		if (app1.lastUpdateTime > app2.lastUpdateTime) comp = -1;
         		return comp;
         	}
@@ -113,7 +124,10 @@ public class MainActivity extends Activity {
 					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + pkg)));
 					}
 				}
-        });  
+        });
+        
+        setProgressBarIndeterminateVisibility(false);
+
 	}
 
 	@Override

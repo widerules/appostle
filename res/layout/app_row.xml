@@ -13,7 +13,11 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_vertical"
+        android:cropToPadding="true"
+        android:maxHeight="100dp"
+        android:maxWidth="100dp"
         android:paddingRight="4dp"
+        android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher" />
 
     <TextView
