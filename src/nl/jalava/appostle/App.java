@@ -21,6 +21,7 @@ public class App {
 	public Drawable icon;
 	public String text;
 	public String name;
+	public String version;
 	public String packageName;
 	long lastUpdateTime;
 	long firstInstallTime;
@@ -29,6 +30,7 @@ public class App {
 		super();
 		this.text = text;
 		this.name = "Unknown Name";
+		this.version = "0.0";
 		this.packageName = "com.example";
 		this.lastUpdateTime = 0;
 		this.firstInstallTime = 0;

@@ -81,8 +81,9 @@ public class MainActivity extends Activity {
 				
 				//String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
 				String dateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(updated));
-				App app = new App(0, name + "\n" + pi.packageName + "\n" + dateString);
+				App app = new App(0, name + " - " + pi.versionName + "\n" + pi.packageName + "\n" + dateString);
 				app.name = name;
+				app.version = pi.versionName;
 				app.icon = pm.getApplicationIcon(ai);
 				app.packageName = pi.packageName;
 				app.lastUpdateTime = updated;

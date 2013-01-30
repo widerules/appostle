@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/RelativeLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="4dp" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="4dp" >
 
     <ImageView
         android:id="@+id/app_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="30"
         android:adjustViewBounds="false"
-        android:cropToPadding="true"
-        android:maxHeight="100dp"
-        android:maxWidth="100dp"
-        android:paddingRight="4dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher" />
+        android:scaleType="centerInside" />
 
     <TextView
         android:id="@+id/app_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/app_image"
-        android:layout_toRightOf="@id/app_image"
+        android:layout_weight="70"
+        android:paddingLeft="4dp"
         android:text="" />
 
-</RelativeLayout>
+</LinearLayout>
