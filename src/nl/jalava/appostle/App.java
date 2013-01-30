@@ -24,7 +24,6 @@ public class App {
 	public String version;
 	public String packageName;
 	long lastUpdateTime;
-	long firstInstallTime;
 	
 	public App(int image, String text){
 		super();
@@ -33,6 +32,5 @@ public class App {
 		this.version = "0.0";
 		this.packageName = "com.example";
 		this.lastUpdateTime = 0;
-		this.firstInstallTime = 0;
 	}
 }

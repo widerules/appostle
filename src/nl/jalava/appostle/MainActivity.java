@@ -23,25 +23,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
-import nl.jalava.appostle.R;
-
-import android.net.Uri;
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.view.Menu;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+
+public class MainActivity extends SherlockFragmentActivity {
 	private ListView listView1; 
 	private Context context;
 	
@@ -49,14 +50,13 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);  
-		setProgressBarIndeterminateVisibility(true); 		
-
 		setContentView(R.layout.activity_main);
-		
+			
 		PackageManager pm = getPackageManager();
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
 		context = getBaseContext();
+
+        listView1 = (ListView)findViewById(R.id.listView1);
 		
 		Vector<App> app_data = new Vector<App>();
 
@@ -71,12 +71,13 @@ public class MainActivity extends Activity {
 				e.printStackTrace();
 			}
 
-			if (ai.sourceDir.startsWith("/data/app/")) {
+			if (ai.sourceDir.startsWith("/")) { //data/app/")) {
 				String name = (String) pm.getApplicationLabel(ai);
 				//long updated = pi.lastUpdateTime;
 				
 				// Date from app directory.
 				String appFile = ai.sourceDir;
+				//long updated = pi.lastUpdateTime; // Requires level 9.
 				long updated = new File(appFile).lastModified();				
 				
 				//String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
@@ -87,7 +88,6 @@ public class MainActivity extends Activity {
 				app.icon = pm.getApplicationIcon(ai);
 				app.packageName = pi.packageName;
 				app.lastUpdateTime = updated;
-				app.firstInstallTime = pi.firstInstallTime;
 				app_data.add(app);
 				i++;
 				if (i >= max) break;
@@ -114,7 +114,6 @@ public class MainActivity extends Activity {
 		});
         
         // OnClick
-        listView1 = (ListView)findViewById(R.id.listView1);
         listView1.setClickable(true);
         listView1.setAdapter(adapter);
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {  
@@ -131,15 +130,23 @@ public class MainActivity extends Activity {
 				}
         });
         
-        setProgressBarIndeterminateVisibility(false);
-
+	    findViewById(R.id.progressBar1).setVisibility(View.GONE); 
+	    listView1.setVisibility(View.VISIBLE);
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
+		new MenuInflater(this).inflate(R.menu.options, menu);
+		return (super.onCreateOptionsMenu(menu));
 	}
-
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			return true;
+		//case R.id.about;
+		}
+		return(super.onOptionsItemSelected(item)); 
+	}
 }
