@@ -32,33 +32,42 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 
 public class MainActivity extends SherlockFragmentActivity {
 	private ListView listView1; 
 	private Context context;
+	PackageManager pm;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_main);
-			
-		PackageManager pm = getPackageManager();
-		List<PackageInfo> apps = pm.getInstalledPackages(0);
-		context = getBaseContext();
 
-        listView1 = (ListView)findViewById(R.id.listView1);
+		listView1 = (ListView)findViewById(R.id.listView1);
+			
+		pm = getPackageManager();
+		context = getBaseContext();
 		
-		Vector<App> app_data = new Vector<App>();
+		updateApps();
+	}
+	
+	private void updateApps() {
+		setProgressBarIndeterminateVisibility(true);
+
+	    Vector<App> app_data = new Vector<App>();
+
+		List<PackageInfo> apps = pm.getInstalledPackages(0);
 
 		int max = apps.size();
 		int i = 0;
@@ -68,7 +77,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				ai = pm.getApplicationInfo(pi.packageName, 0);
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 
 			if (ai.sourceDir.startsWith("/")) { //data/app/")) {
@@ -79,10 +88,10 @@ public class MainActivity extends SherlockFragmentActivity {
 				String appFile = ai.sourceDir;
 				//long updated = pi.lastUpdateTime; // Requires level 9.
 				long updated = new File(appFile).lastModified();				
-				
+
 				//String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
 				String dateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(updated));
-				App app = new App(0, name + " - " + pi.versionName + "\n" + pi.packageName + "\n" + dateString);
+				App app = new App(0, name + " (" + pi.versionName + ")\n" + pi.packageName + "\n" + dateString);
 				app.name = name;
 				app.version = pi.versionName;
 				app.icon = pm.getApplicationIcon(ai);
@@ -115,6 +124,7 @@ public class MainActivity extends SherlockFragmentActivity {
         
         // OnClick
         listView1.setClickable(true);
+        listView1.setFastScrollEnabled(true);
         listView1.setAdapter(adapter);
         listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {  
 				@Override
@@ -130,23 +140,18 @@ public class MainActivity extends SherlockFragmentActivity {
 				}
         });
         
-	    findViewById(R.id.progressBar1).setVisibility(View.GONE); 
-	    listView1.setVisibility(View.VISIBLE);
+	    setProgressBarIndeterminateVisibility(false); 	
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		new MenuInflater(this).inflate(R.menu.options, menu);
+
+		menu.add("Refresh")
+        .setIcon(R.drawable.ic_refresh)
+        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
 		return (super.onCreateOptionsMenu(menu));
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			return true;
-		//case R.id.about;
-		}
-		return(super.onOptionsItemSelected(item)); 
-	}
+
 }
