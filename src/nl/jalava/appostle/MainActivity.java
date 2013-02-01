@@ -80,9 +80,9 @@ public class MainActivity extends SherlockFragmentActivity {
 				//e.printStackTrace();
 			}
 
-			if (ai.sourceDir.startsWith("/")) { //data/app/")) {
+			// Only installed apps. TODO: Setting in options.
+			if (ai.sourceDir.startsWith("/data/app/")) {
 				String name = (String) pm.getApplicationLabel(ai);
-				//long updated = pi.lastUpdateTime;
 				
 				// Date from app directory.
 				String appFile = ai.sourceDir;
@@ -90,6 +90,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				long updated = new File(appFile).lastModified();				
 
 				//String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
+				//TODO: localize date.
 				String dateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(updated));
 				App app = new App(0, name + " (" + pi.versionName + ")\n" + pi.packageName + "\n" + dateString);
 				app.name = name;
