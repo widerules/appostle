@@ -31,6 +31,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -50,38 +51,62 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_main);
+		setSupportProgressBarIndeterminateVisibility(false);
+
+		context = getBaseContext();
 
 		listView1 = (ListView)findViewById(R.id.listView1);
-			
+        listView1.setClickable(true);
+        listView1.setFastScrollEnabled(true);
+
+        // OnClick
+        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {  
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					App o = (App) listView1.getItemAtPosition(position);
+					String pkg = o.packageName;
+				    //Toast.makeText(context, "Opening: " + pkg, Toast.LENGTH_SHORT).show();
+					try {
+					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkg)));
+					} catch (android.content.ActivityNotFoundException anfe) {
+					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + pkg)));
+					}
+				}
+        });
+
 		pm = getPackageManager();
-		context = getBaseContext();
 		
-		updateApps();
+		Handler handler = new Handler(); 
+	    handler.postDelayed(new Runnable() { 
+	         public void run() { 
+	        	 updateApps(); 
+	         } 
+	    }, 100); 
 	}
 	
 	private void updateApps() {
-		setProgressBarIndeterminateVisibility(true);
+		setSupportProgressBarIndeterminateVisibility(true);
 
 	    Vector<App> app_data = new Vector<App>();
 
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
 
-		int max = apps.size();
-		int i = 0;
 		for (PackageInfo pi: apps) {
 			ApplicationInfo ai = null;
 			try {
 				ai = pm.getApplicationInfo(pi.packageName, 0);
 			} catch (NameNotFoundException e) {
 				// TODO Auto-generated catch block
-				//e.printStackTrace();
+				e.printStackTrace();
+				continue;
 			}
 
 			// Only installed apps. TODO: Setting in options.
-			if (ai.sourceDir.startsWith("/data/app/")) {
+			if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
 				String name = (String) pm.getApplicationLabel(ai);
 				
 				// Date from app directory.
@@ -99,8 +124,6 @@ public class MainActivity extends SherlockFragmentActivity {
 				app.packageName = pi.packageName;
 				app.lastUpdateTime = updated;
 				app_data.add(app);
-				i++;
-				if (i >= max) break;
 			}
 		}
 
@@ -123,36 +146,31 @@ public class MainActivity extends SherlockFragmentActivity {
         	}
 		});
         
-        // OnClick
-        listView1.setClickable(true);
-        listView1.setFastScrollEnabled(true);
         listView1.setAdapter(adapter);
-        listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {  
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					App o = (App) listView1.getItemAtPosition(position);
-					String pkg = o.packageName;
-				    Toast.makeText(context, "Opening: " + pkg, Toast.LENGTH_SHORT).show();
-					try {
-					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkg)));
-					} catch (android.content.ActivityNotFoundException anfe) {
-					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + pkg)));
-					}
-				}
-        });
         
-	    setProgressBarIndeterminateVisibility(false); 	
+        setSupportProgressBarIndeterminateVisibility(false);
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		new MenuInflater(this).inflate(R.menu.options, menu);
-
-		menu.add("Refresh")
-        .setIcon(R.drawable.ic_refresh)
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-
-		return (super.onCreateOptionsMenu(menu));
+ 		return (super.onCreateOptionsMenu(menu));
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+	    switch (id) {
+	    case R.id.refresh:
+	    	updateApps();
+	    	break;
+	    case R.id.menu_about:
+	    	AboutDialog about = new AboutDialog(this);
+	    	about.setTitle(R.string.about);
+	    	about.setCanceledOnTouchOutside(true);
+	    	about.show();
+	    	break;
+	    }
+	    return super.onOptionsItemSelected(item);
+	}
 }
