@@ -77,8 +77,18 @@ public class MainActivity extends SherlockFragmentActivity {
 					}
 				}
         });
+        
+        // Long press: launch Google Play in  browser with chosen language.
+        // TODO: Select language. Use context menu.
+        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
+            	App o = (App) listView1.getItemAtPosition(pos);
+            	startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + o.packageName + "&hl=en")));
+                return true;
+            }
+        }); 
 
-		pm = getPackageManager();
+        pm = getPackageManager();
 		
 		Handler handler = new Handler(); 
 	    handler.postDelayed(new Runnable() { 
