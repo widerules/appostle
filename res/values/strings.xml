@@ -6,7 +6,7 @@
     <string name="help">Help</string>
     <string name="about">About</string>
     <string name="refresh">Refresh</string>
-    <string name="about_license">Apache License, Version 2.0</string>
+    <string name="about_license">Appostle is Open Source under the Apache License, Version 2.0\nVisit http://code.google.com/p/appostle\n\nPowered by ActionBarSherlock</string>
     <string name="about_me">&lt;h3>Appostle&lt;/h3></string>
 
 </resources>

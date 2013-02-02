@@ -30,37 +30,38 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
+import android.widget.ProgressBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 
 public class MainActivity extends SherlockFragmentActivity {
-	private ListView listView1; 
+	private ListView listView1;
+	private ProgressBar progress;
 	private Context context;
-	PackageManager pm;
+	private PackageManager pm;
+	private AppAdapter adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-		setSupportProgressBarIndeterminateVisibility(false);
 
 		context = getBaseContext();
 
 		listView1 = (ListView)findViewById(R.id.listView1);
-        listView1.setClickable(true);
+		progress = (ProgressBar) findViewById(R.id.progressBar);
+		
+		listView1.setClickable(true);
         listView1.setFastScrollEnabled(true);
 
         // OnClick
@@ -89,18 +90,11 @@ public class MainActivity extends SherlockFragmentActivity {
         }); 
 
         pm = getPackageManager();
-		
-		Handler handler = new Handler(); 
-	    handler.postDelayed(new Runnable() { 
-	         public void run() { 
-	        	 updateApps(); 
-	         } 
-	    }, 100); 
+
+        new UpdateAppList().execute();
 	}
 	
 	private void updateApps() {
-		setSupportProgressBarIndeterminateVisibility(true);
-
 	    Vector<App> app_data = new Vector<App>();
 
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
@@ -141,7 +135,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		App[] app_data2 = new App[app_data.size()];
 		app_data.copyInto(app_data2);
 	    
-        AppAdapter adapter = new AppAdapter(this, R.layout.app_row, app_data2);
+        adapter = new AppAdapter(this, R.layout.app_row, app_data2);
         
         // Sort array by date descending.
         adapter.sort(new Comparator<App>() {
@@ -155,10 +149,6 @@ public class MainActivity extends SherlockFragmentActivity {
         		return comp;
         	}
 		});
-        
-        listView1.setAdapter(adapter);
-        
-        setSupportProgressBarIndeterminateVisibility(false);
 	}
 	
 	@Override
@@ -172,15 +162,39 @@ public class MainActivity extends SherlockFragmentActivity {
 		int id = item.getItemId();
 	    switch (id) {
 	    case R.id.refresh:
-	    	updateApps();
+	    	new UpdateAppList().execute();
 	    	break;
 	    case R.id.menu_about:
 	    	AboutDialog about = new AboutDialog(this);
-	    	about.setTitle(R.string.about);
+	    	String title = context.getString(R.string.about) + " " + context.getString(R.string.app_name);
+	    	about.setTitle(title);
 	    	about.setCanceledOnTouchOutside(true);
 	    	about.show();
 	    	break;
 	    }
 	    return super.onOptionsItemSelected(item);
 	}
+	
+	private class UpdateAppList extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			updateApps();
+			return null;
+		}
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progress.setVisibility(View.VISIBLE);
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			progress.setVisibility(View.GONE);
+			listView1.setAdapter(adapter);
+		}
+	}
 }
+
+
