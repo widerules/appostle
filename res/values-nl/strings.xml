@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Appostle</string>
+    <string name="menu_settings">Instellingen</string>
+    <string name="help">Hulp</string>
+    <string name="about">Over</string>
+    <string name="refresh">Vernieuwen</string>
+    <string name="about_license">Appostle is Open Source onder de Apache License, Version 2.0\nVisit http://code.google.com/p/appostle\n\nPowered by ActionBarSherlock</string>
+    <string name="about_me">&lt;h3>Appostle&lt;/h3></string>
+
+</resources>
