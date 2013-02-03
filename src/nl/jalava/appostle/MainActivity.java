@@ -35,9 +35,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -69,31 +72,15 @@ public class MainActivity extends SherlockFragmentActivity {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					App o = (App) listView1.getItemAtPosition(position);
-					String pkg = o.packageName;
-				    //Toast.makeText(context, "Opening: " + pkg, Toast.LENGTH_SHORT).show();
-					try {
-					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkg)));
-					} catch (android.content.ActivityNotFoundException anfe) {
-					    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + pkg)));
-					}
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + o.packageName + "&hl=en")));
 				}
         });
-        
-        // Long press: launch Google Play in  browser with chosen language.
-        // TODO: Select language. Use context menu.
-        listView1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-            	App o = (App) listView1.getItemAtPosition(pos);
-            	startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + o.packageName + "&hl=en")));
-                return true;
-            }
-        }); 
 
         pm = getPackageManager();
 
         new UpdateAppList().execute();
 	}
-	
+
 	private void updateApps() {
 	    Vector<App> app_data = new Vector<App>();
 

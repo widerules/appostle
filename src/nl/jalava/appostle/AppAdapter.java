@@ -18,12 +18,17 @@ package nl.jalava.appostle;
 import nl.jalava.appostle.R;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AppAdapter extends ArrayAdapter<App> {
 	Context context;
@@ -41,7 +46,9 @@ public class AppAdapter extends ArrayAdapter<App> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
         AppHolder holder = null;
-
+        App app = data[position];
+        final String pkg = app.packageName;       
+        
         if(row == null)
         {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
@@ -51,16 +58,29 @@ public class AppAdapter extends ArrayAdapter<App> {
             holder.imgIcon = (ImageView)row.findViewById(R.id.app_image);
             holder.txtTitle = (TextView)row.findViewById(R.id.app_text);
             row.setTag(holder);
+
+            // Play button clicked; launch Play Store.
+            row.findViewById(R.id.playButton).setOnClickListener(new OnClickListener() {
+				@Override
+    			public void onClick(View v) {
+    				Toast.makeText(context, "Google Play package: " + pkg, Toast.LENGTH_SHORT).show();
+					try {
+						context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkg)));
+					} catch (android.content.ActivityNotFoundException anfe) {
+						context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + pkg)));
+					}
+    			}
+        	});
+
         }
         else
         {
             holder = (AppHolder)row.getTag();
         }
         
-        App app = data[position];
         holder.txtTitle.setText(app.text);
         holder.imgIcon.setImageDrawable(app.icon);
-
+       
         return row;
     }
     
