@@ -19,18 +19,18 @@ import android.graphics.drawable.Drawable;
 
 public class App {
 	public Drawable icon;
-	public String text;
 	public String name;
+	public String date;
 	public String version;
 	public String packageName;
 	long lastUpdateTime;
 	
-	public App(int image, String text){
+	public App(){
 		super();
-		this.text = text;
-		this.name = "Unknown Name";
-		this.version = "0.0";
-		this.packageName = "com.example";
+		this.name = "";
+		this.version = "";
+		this.packageName = "";
+		this.date = "";
 		this.lastUpdateTime = 0;
 	}
 }

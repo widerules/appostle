@@ -32,10 +32,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -82,7 +79,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	}
 
 	private void updateApps() {
-	    Vector<App> app_data = new Vector<App>();
+	    Vector<App> app_data = new Vector<App>(); //TODO: Use collection.
 
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
 
@@ -105,11 +102,13 @@ public class MainActivity extends SherlockFragmentActivity {
 				//long updated = pi.lastUpdateTime; // Requires level 9.
 				long updated = new File(appFile).lastModified();				
 
-				//String dateString = new SimpleDateFormat("MM/dd/yyyy").format(new Date(updated));
-				//TODO: localize date.
-				String dateString = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date(updated));
-				App app = new App(0, name + " (" + pi.versionName + ")\n" + pi.packageName + "\n" + dateString);
+				// Localized date.
+				String dateString = android.text.format.DateFormat.getDateFormat(context).format(new Date(updated));
+				
+				// Get app info.
+				App app = new App();
 				app.name = name;
+				app.date = dateString;
 				app.version = pi.versionName;
 				app.icon = pm.getApplicationIcon(ai);
 				app.packageName = pi.packageName;
