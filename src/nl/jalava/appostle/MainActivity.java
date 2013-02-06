@@ -45,9 +45,6 @@ public class MainActivity extends SherlockFragmentActivity implements AppListFra
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 	    switch (id) {
-	    case R.id.refresh:
-	    	//new UpdateAppList().execute();
-	    	break;
 	    case R.id.menu_about:
 	    	AboutDialog about = new AboutDialog(this);
 	    	String title = context.getString(R.string.about) + " " + context.getString(R.string.app_name);
@@ -63,10 +60,10 @@ public class MainActivity extends SherlockFragmentActivity implements AppListFra
 	public void onAppSelected(App app) {
 	    DetailFragment fragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.app_detail);
         if (fragment != null && fragment.isInLayout()) {
-        	fragment.setText(app.name);
+        	fragment.fillDetail(app.packageName);
         } else {
         	Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-        	intent.putExtra(DetailActivity.APP_NAME, app.name);
+        	intent.putExtra(DetailActivity.PACKAGE_NAME, app.packageName);
         	startActivity(intent);
         }
 	}

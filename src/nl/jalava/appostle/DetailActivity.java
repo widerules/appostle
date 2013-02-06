@@ -15,33 +15,54 @@
  */
 package nl.jalava.appostle;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.widget.TextView;
 
-public class DetailActivity extends SherlockActivity {
-	public static final String APP_NAME = "app_name";
-
+public class DetailActivity extends SherlockFragmentActivity {
+	public static final String PACKAGE_NAME = "package_name";
+	private DetailFragment detail = null; 
+	private String app_package = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-	// Need to check if Activity has been switched to landscape mode
-	// If yes, finish and go back to the start Activity
-    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-    	finish();
-    	return;
-    }
+		// Activity in landscape mode then finish and go back to the start Activity.
+	    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+	    	finish();
+	    	return;
+	    }
+	
+	    detail = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.app_detail);
+	    
+	    if (detail == null) {
+	    	detail = new DetailFragment();
+	    	getSupportFragmentManager().beginTransaction().add(android.R.id.content, detail).commit();
+	    }
+	    app_package = getIntent().getStringExtra(PACKAGE_NAME);
+  
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Activate back button.
+	}
+	
+	// Handle the back button.
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			onBackPressed();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
+	
+	@Override
+	public void onResume() {
+	    super.onResume();
 
-    //setContentView(R.layout.activity_detail);
-    setContentView(R.layout.app_details);
-    Bundle extras = getIntent().getExtras();
-    if (extras != null) {
-        String s = extras.getString(APP_NAME);
-        TextView view = (TextView) findViewById(R.id.detail_app_name);
-        view.setText(s);
-    }
-  }
+	    detail.fillDetail(app_package);
+	}	
 } 

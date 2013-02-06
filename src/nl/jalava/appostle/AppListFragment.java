@@ -27,20 +27,21 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.MenuItem;
 
 public class AppListFragment extends SherlockFragment {
+	final static String LOG = "APPLIST";
+	
 	private OnItemSelectedListener listener;
 	
 	private ListView listView1;
@@ -55,7 +56,11 @@ public class AppListFragment extends SherlockFragment {
 		listView1 = (ListView) view.findViewById(R.id.listView1);
 		progress = (ProgressBar) view.findViewById(R.id.progressBar);
 
+		// Use the action bar.
+		setHasOptionsMenu(true);
 
+		//setRetainInstance(true);
+		
 		listView1.setClickable(true);
 	    listView1.setFastScrollEnabled(true);
 	
@@ -65,7 +70,6 @@ public class AppListFragment extends SherlockFragment {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					App o = (App) listView1.getItemAtPosition(position);
 					listener.onAppSelected(o);
-					//startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + o.packageName + "&hl=en")));
 				}
 	    });
     
@@ -76,19 +80,33 @@ public class AppListFragment extends SherlockFragment {
 	    
 	    return view;
 	}
-	  
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+	    switch (id) {
+	    case R.id.refresh:
+		    new UpdateAppList().execute();
+	    	break;
+    	default:
+    		return super.onOptionsItemSelected(item);
+	    }
+	    return true;
+	}
+	
 	private void updateApps() {
 	    Vector<App> app_data = new Vector<App>(); //TODO: Use collection.
 
+	    Log.d(LOG, "*** GET PACKAGES ***");
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
-
+	    Log.d(LOG, "*** FILL LIST ***");
+	    
 		for (PackageInfo pi: apps) {
 			ApplicationInfo ai = null;
 			try {
+				Log.d(LOG, "*** PACKAGE: " + pi.packageName);
 				ai = pm.getApplicationInfo(pi.packageName, 0);
 			} catch (NameNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 				continue;
 			}
 
@@ -115,7 +133,8 @@ public class AppListFragment extends SherlockFragment {
 				app_data.add(app);
 			}
 		}
-
+		Log.d(LOG, "*** DONE ***");
+		 
 		// Copy the Vector into the array.
 		App[] app_data2 = new App[app_data.size()];
 		app_data.copyInto(app_data2);
@@ -136,7 +155,7 @@ public class AppListFragment extends SherlockFragment {
 		});
 	}
 	
-	private class UpdateAppList extends AsyncTask<Void, Void, Void> {
+	public class UpdateAppList extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... arg0) {
 			updateApps();
@@ -168,7 +187,7 @@ public class AppListFragment extends SherlockFragment {
 	    	listener = (OnItemSelectedListener) activity;
 	    } else {
 	    	throw new ClassCastException(activity.toString()
-    			+ " must implemenet MyListFragment.OnItemSelectedListener");
+    			+ " must implement AppListFragment.OnItemSelectedListener");
 	    }
 	}
 

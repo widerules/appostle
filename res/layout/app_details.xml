@@ -5,15 +5,17 @@
     android:layout_height="fill_parent">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/detail_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="4dp"
         android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/detail_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="TextView" />
 
 </LinearLayout>
