@@ -19,14 +19,14 @@ import nl.jalava.appostle.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +49,7 @@ public class AppAdapter extends ArrayAdapter<App> {
         AppHolder holder = null;
         App app = data[position];
         final String pkg;        
-        
+
         if(row == null)
         {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
@@ -63,7 +63,7 @@ public class AppAdapter extends ArrayAdapter<App> {
         }
         else
         {
-            holder = (AppHolder)row.getTag();
+        	holder = (AppHolder)row.getTag();
         }
 
         pkg = app.packageName;
