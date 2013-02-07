@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/TableLayout1"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp" >
 
-    <TableRow
-        android:id="@+id/tableRow2"
+    <LinearLayout
+        android:id="@+id/LinearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -21,14 +21,15 @@
         <TextView
             android:id="@+id/about_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"/>
-    </TableRow>
+            android:layout_height="wrap_content"
+            android:text="@string/about_me" />
+    </LinearLayout>
 
-    <TableRow
-        android:id="@+id/tableRow1"
+    <LinearLayout
+        android:id="@+id/LinearLayout3"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView2"
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:text="@string/about_license"
             android:textSize="8sp" />
-    </TableRow>
 
-</TableLayout>
+    </LinearLayout>
+
+</LinearLayout>

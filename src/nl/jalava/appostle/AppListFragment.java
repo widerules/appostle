@@ -28,6 +28,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,8 +43,14 @@ import com.actionbarsherlock.view.MenuItem;
 public class AppListFragment extends SherlockFragment {
 	final static String LOG = "APPLIST";
 	
+	// Listener.
 	private OnItemSelectedListener listener;
-	
+
+	// Interface for communication with listener.
+	public interface OnItemSelectedListener {
+		public void onAppSelected(App app);
+	}
+
 	private ListView listView1;
 	private ProgressBar progress;
 	private Context context;
@@ -72,12 +79,12 @@ public class AppListFragment extends SherlockFragment {
 					listener.onAppSelected(o);
 				}
 	    });
-    
+
 	    context = view.getContext();
 	    pm = context.getPackageManager();
 	
 	    new UpdateAppList().execute();
-	    
+
 	    return view;
 	}
 	
@@ -95,16 +102,13 @@ public class AppListFragment extends SherlockFragment {
 	}
 	
 	private void updateApps() {
-	    Vector<App> app_data = new Vector<App>(); //TODO: Use collection.
 
-	    Log.d(LOG, "*** GET PACKAGES ***");
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
-	    Log.d(LOG, "*** FILL LIST ***");
+	    Vector<App> app_data = new Vector<App>();
 	    
 		for (PackageInfo pi: apps) {
 			ApplicationInfo ai = null;
 			try {
-				Log.d(LOG, "*** PACKAGE: " + pi.packageName);
 				ai = pm.getApplicationInfo(pi.packageName, 0);
 			} catch (NameNotFoundException e) {
 				continue;
@@ -114,10 +118,16 @@ public class AppListFragment extends SherlockFragment {
 			if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
 				String name = (String) pm.getApplicationLabel(ai);
 				
-				// Date from app directory.
 				String appFile = ai.sourceDir;
-				//long updated = pi.lastUpdateTime; // Requires level 9.
-				long updated = new File(appFile).lastModified();				
+
+				// Get last updated date.
+				long updated;
+				if (Build.VERSION.SDK_INT >= 9) {
+					updated = pi.lastUpdateTime;
+				} else {
+					// Date from app directory.
+					updated = new File(appFile).lastModified();
+				}
 
 				// Localized date.
 				String dateString = android.text.format.DateFormat.getDateFormat(context).format(new Date(updated));
@@ -174,10 +184,6 @@ public class AppListFragment extends SherlockFragment {
 			progress.setVisibility(View.GONE);
 			listView1.setAdapter(adapter);
 		}
-	}
-	
-	public interface OnItemSelectedListener {
-		public void onAppSelected(App app);
 	}
 	
 	@Override

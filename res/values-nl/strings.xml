@@ -6,7 +6,8 @@
     <string name="help">Hulp</string>
     <string name="about">Over</string>
     <string name="refresh">Vernieuwen</string>
-    <string name="about_license">Appostle is Open Source onder de Apache License, Version 2.0\nVisit http://code.google.com/p/appostle\n\nPowered by ActionBarSherlock</string>
-    <string name="about_me">&lt;h3>Appostle&lt;/h3></string>
+    <string name="about_license">Appostle is Open Source onder de Apache License, Version 2.0\nGa naar: http://code.google.com/p/appostle\n\nPowered by ActionBarSherlock</string>
+    <string name="about_me">&lt;h3>Appostle&lt;h3>©2013 Jeffrey Rusterholz</string>
+    <string name="view_in_play_store">Bekijken in Play Store</string>
 
 </resources>

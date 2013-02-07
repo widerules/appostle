@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/detail_image"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/detail_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/detail_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ViewInPlayStoreButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:src="@drawable/ic_launcher" />
+        android:text="@string/view_in_play_store" />
 
     <TextView
-        android:id="@+id/detail_app_name"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="TextView" />
+        android:text="@string/choose_language" />
+
+    <Spinner
+        android:id="@+id/languagesSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/languages"
+        android:prompt="@string/choose_language" />
+
+    <Button
+        android:id="@+id/ViewInBrowser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_in_browser" />
 
 </LinearLayout>
