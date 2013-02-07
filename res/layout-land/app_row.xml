@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:padding="4dp" >
+    android:padding="4dp"
+	android:background="#CBA">
 
     <ImageButton
         android:id="@+id/playButton"
