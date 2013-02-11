@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -37,6 +38,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
 
@@ -51,8 +54,9 @@ public class AppListFragment extends SherlockFragment {
 		public void onAppSelected(App app);
 	}
 
-	private ListView listView1;
+	private ListView appList;
 	private ProgressBar progress;
+	private TextView progress_loading;
 	private Context context;
 	private PackageManager pm;
 	private AppAdapter adapter;
@@ -60,22 +64,23 @@ public class AppListFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 	    View view = inflater.inflate(R.layout.app_list, container, false);
-		listView1 = (ListView) view.findViewById(R.id.listView1);
+		appList = (ListView) view.findViewById(R.id.listView1);
 		progress = (ProgressBar) view.findViewById(R.id.progressBar);
+		progress_loading = (TextView) view.findViewById(R.id.progress_loading);
 
 		// Use the action bar.
 		setHasOptionsMenu(true);
 
 		//setRetainInstance(true);
 		
-		listView1.setClickable(true);
-	    listView1.setFastScrollEnabled(true);
-	
+		appList.setClickable(true);
+	    appList.setFastScrollEnabled(true);
+
 	    // OnClick
-	    listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {  
+	    appList.setOnItemClickListener(new AdapterView.OnItemClickListener() {  
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					App o = (App) listView1.getItemAtPosition(position);
+					App o = (App) appList.getItemAtPosition(position);
 					listener.onAppSelected(o);
 				}
 	    });
@@ -101,6 +106,7 @@ public class AppListFragment extends SherlockFragment {
 	    return true;
 	}
 	
+	@SuppressLint("NewApi")
 	private void updateApps() {
 
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
@@ -143,7 +149,6 @@ public class AppListFragment extends SherlockFragment {
 				app_data.add(app);
 			}
 		}
-		Log.d(LOG, "*** DONE ***");
 		 
 		// Copy the Vector into the array.
 		App[] app_data2 = new App[app_data.size()];
@@ -176,13 +181,15 @@ public class AppListFragment extends SherlockFragment {
 		protected void onPreExecute() {
 			super.onPreExecute();
 			progress.setVisibility(View.VISIBLE);
+			progress_loading.setVisibility(View.VISIBLE);
 		}
 		
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 			progress.setVisibility(View.GONE);
-			listView1.setAdapter(adapter);
+			progress_loading.setVisibility(View.GONE);
+			appList.setAdapter(adapter);
 		}
 	}
 	

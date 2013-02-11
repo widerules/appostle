@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <fragment 
-            android:id="@+id/apps_list"
-            android:layout_weight="3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-        	class="nl.jalava.appostle.AppListFragment">
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+
+    <fragment
+        android:id="@+id/apps_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        class="nl.jalava.appostle.AppListFragment"
+        tools:layout="@layout/app_list" >
+
     </fragment>
 
     <fragment
-            android:id="@+id/app_detail"
-            android:layout_weight="4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            class="nl.jalava.appostle.DetailFragment">
+        android:id="@+id/app_detail"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        class="nl.jalava.appostle.DetailFragment"
+        tools:layout="@layout/app_details" >
     </fragment>
 
 </LinearLayout>

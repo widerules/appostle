@@ -17,10 +17,10 @@
 
         <TextView
             android:id="@+id/detail_app_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="" />
     </LinearLayout>
 
     <Button
@@ -28,16 +28,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/view_in_play_store" />
-
+    
+	<View
+   	    android:id="@+id/separator"
+   	    android:layout_width="fill_parent"
+   	    android:layout_height="1dip"
+   	    android:background="#000" />
+	
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/choose_language" />
+        android:gravity="center"
+        android:paddingTop="4dp"
+        android:text="@string/choose_language"
+        android:textAlignment="center" />
 
     <Spinner
         android:id="@+id/languagesSpinner"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:entries="@array/languages"
         android:prompt="@string/choose_language" />
