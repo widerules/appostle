@@ -11,4 +11,5 @@
     <string name="choose_language">Choose language</string>
     <string name="view_in_browser">View in Browser</string>
     <string name="loading_progress">Loading…</string>
+    <string name="detail_open">Open</string>
 </resources>

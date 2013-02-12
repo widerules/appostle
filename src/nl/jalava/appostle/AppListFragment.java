@@ -31,6 +31,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +72,7 @@ public class AppListFragment extends SherlockFragment {
 		// Use the action bar.
 		setHasOptionsMenu(true);
 
-		//setRetainInstance(true);
+		setRetainInstance(true);
 		
 		appList.setClickable(true);
 	    appList.setFastScrollEnabled(true);
@@ -190,6 +191,13 @@ public class AppListFragment extends SherlockFragment {
 			progress.setVisibility(View.GONE);
 			progress_loading.setVisibility(View.GONE);
 			appList.setAdapter(adapter);
+			
+			// Fill the detail view if available.
+			FragmentManager fm = getFragmentManager();
+			DetailFragment det = (DetailFragment) fm.findFragmentById(R.id.app_detail);
+			if (det != null) {
+				det.fillDetail(adapter.data[0].packageName); // TODO: check data.
+			}
 		}
 	}
 	

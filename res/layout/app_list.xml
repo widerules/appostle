@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity" >
 
+    <View
+        android:layout_width="16dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/shadow_left" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
@@ -14,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
-
+	
+   
     <TextView
         android:id="@+id/progress_loading"
         android:layout_width="wrap_content"
