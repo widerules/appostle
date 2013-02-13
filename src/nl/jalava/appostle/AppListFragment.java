@@ -191,11 +191,11 @@ public class AppListFragment extends SherlockFragment {
 			progress.setVisibility(View.GONE);
 			progress_loading.setVisibility(View.GONE);
 			appList.setAdapter(adapter);
-			
+
 			// Fill the detail view if available.
 			FragmentManager fm = getFragmentManager();
 			DetailFragment det = (DetailFragment) fm.findFragmentById(R.id.app_detail);
-			if (det != null) {
+			if (det != null && det.isVisible()) {
 				det.fillDetail(adapter.data[0].packageName); // TODO: check data.
 			}
 		}

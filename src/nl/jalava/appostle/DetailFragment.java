@@ -2,6 +2,7 @@ package nl.jalava.appostle;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -22,31 +25,50 @@ import com.actionbarsherlock.app.SherlockFragment;
 public class DetailFragment extends SherlockFragment {
 	private View view = null;
 	private String package_name = null;
-	private String curLC;
+	private String langcodes[] = null; // List of language codes.
+	private String curLC;              // Current language code.
+	private SharedPreferences prefs;
+	
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        prefs = getActivity().getSharedPreferences("DetailFragment", Context.MODE_PRIVATE);
+        curLC = prefs.getString("lc", "en");
+    }	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.app_details, container, false);
 
-		// Get current language code.
-		curLC = "en";
-        if (savedInstanceState != null) {
-        	curLC = savedInstanceState.getString("curLC"); // Use API level 1
-        }  		
-		
-		final Spinner languages = (Spinner) view.findViewById(R.id.languagesSpinner); 
-		final String langs[] = getResources().getStringArray(R.array.ln); // Language codes.
+        // Spinner for choosing language.
+		final Spinner languageSpinner = (Spinner) view.findViewById(R.id.languagesSpinner);
+		langcodes = getResources().getStringArray(R.array.ln);
 
-		// Set chosen language in selector.
+		// Set chosen language in spinner.
 		int p = 0;
-		for (String s : langs) {
+		for (String s : langcodes) {
 		    if (s.equalsIgnoreCase(curLC)) {
 		        break;
 		    }
 		    p++;
 		}
-		languages.setSelection(p);
+		languageSpinner.setSelection(p);	
 		
+		// Handle choosen language.
+		languageSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View arg1, int arg2, long arg3) {
+				int pos = parent.getSelectedItemPosition();
+				curLC = langcodes[pos];				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+		
+
 		// Button clicked: open Play Store or browser.
 		Button button = (Button) view.findViewById(R.id.ViewInPlayStoreButton);
 		button.setOnClickListener(new View.OnClickListener() {
@@ -77,8 +99,6 @@ public class DetailFragment extends SherlockFragment {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				int pos = languages.getSelectedItemPosition();
-				curLC = langs[pos];
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?" +
 						"id=" + package_name +
 						"&hl=" + curLC)));
@@ -89,19 +109,22 @@ public class DetailFragment extends SherlockFragment {
 	}
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("curLC", curLC);
-    }	
-	
-	public void fillDetail(String app_package) {
+    public void onPause() {
+        super.onPause();
+
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putString("lc", curLC);
+        ed.commit();
+    }    
+
+    public void fillDetail(String app_package) {
 		package_name = app_package;
-		PackageManager pm = view.getContext().getPackageManager();
+		PackageManager pm = getView().getContext().getPackageManager();
 		ApplicationInfo ai = null;
 		try {
 			ai = pm.getApplicationInfo(app_package, 0);
 		} catch (final NameNotFoundException e) {
-			ai = null;
+			return;
 		}
 
 		// Get version from PackageInfo.
@@ -120,4 +143,5 @@ public class DetailFragment extends SherlockFragment {
 		image.setImageDrawable(pm.getApplicationIcon(ai));
 		name.setText(pm.getApplicationLabel(ai) + "\n" + version + "\n" + ai.packageName); 
 	}
+
 }
