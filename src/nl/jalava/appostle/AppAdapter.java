@@ -19,6 +19,8 @@ import nl.jalava.appostle.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +83,11 @@ public class AppAdapter extends ArrayAdapter<App> {
 
         holder.name.setText(app.name);
         holder.date.setText(app.date + " (" + app.version + ")");
+        try {
+			app.icon = context.getPackageManager().getApplicationIcon(app.packageName);
+		} catch (NameNotFoundException e) {
+			app.icon = null;
+		}
         holder.image.setImageDrawable(app.icon);
        
         return row;

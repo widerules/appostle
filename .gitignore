@@ -5,3 +5,4 @@ gen/
 *.class
 /local.properties
 /keys.properties
+.settings

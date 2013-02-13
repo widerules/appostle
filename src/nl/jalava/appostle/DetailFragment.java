@@ -134,8 +134,7 @@ public class DetailFragment extends SherlockFragment {
 			pi = pm.getPackageInfo(app_package, 0);
 			version = pi.versionName;
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		}
 			
 		TextView name = (TextView) view.findViewById(R.id.detail_app_name);

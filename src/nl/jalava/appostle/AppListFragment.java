@@ -144,7 +144,7 @@ public class AppListFragment extends SherlockFragment {
 				app.name = name;
 				app.date = dateString;
 				app.version = pi.versionName;
-				app.icon = pm.getApplicationIcon(ai);
+				//app.icon = pm.getApplicationIcon(ai);
 				app.packageName = pi.packageName;
 				app.lastUpdateTime = updated;
 				app_data.add(app);
