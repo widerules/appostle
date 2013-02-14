@@ -15,36 +15,12 @@
         android:scaleType="fitCenter"
         android:src="@drawable/ic_launcher" />
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:orientation="vertical"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp" >
-
-        <TextView
-            android:id="@+id/app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/app_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@android:string/dialog_alert_title"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="10sp" />
-
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_search" />
+        android:lineSpacingExtra="8dp"
+        android:lineSpacingMultiplier="0.4"
+        android:text="Name" />
 
 </LinearLayout>

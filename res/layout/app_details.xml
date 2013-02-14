@@ -1,60 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:id="@+id/detail_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:src="@drawable/ic_launcher" />
-
-        <TextView
-            android:id="@+id/detail_app_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/ViewInPlayStoreButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_in_play_store" />
-    
-	<View
-   	    android:id="@+id/separator"
-   	    android:layout_width="fill_parent"
-   	    android:layout_height="1dip"
-   	    android:background="#000" />
+	<LinearLayout
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
 	
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="4dp"
-        android:text="@string/choose_language"
-        android:textAlignment="center" />
-
-    <Spinner
-        android:id="@+id/languagesSpinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/languages"
-        android:prompt="@string/choose_language" />
-
-    <Button
-        android:id="@+id/ViewInBrowser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_in_browser" />
-
-</LinearLayout>
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+	
+	        <ImageView
+	            android:id="@+id/detail_image"
+	            android:layout_width="64dp"
+	            android:layout_height="64dp"
+	            android:padding="4dp"
+	            android:src="@drawable/ic_launcher" />
+	
+	        <TextView
+	            android:id="@+id/detail_app_name"
+	            android:layout_width="0dp"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="" />
+	    </LinearLayout>
+	
+	    <Button
+	        android:id="@+id/ViewInPlayStoreButton"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/view_in_play_store" />
+	    
+		<View
+	   	    android:id="@+id/separator"
+	   	    android:layout_width="fill_parent"
+	   	    android:layout_height="1dip"
+	   	    android:background="#000" />
+		
+	    <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:paddingTop="4dp"
+	        android:text="@string/choose_language"
+	        android:textAlignment="center" />
+	
+	    <Spinner
+	        android:id="@+id/languagesSpinner"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:entries="@array/languages"
+	        android:prompt="@string/choose_language" />
+	
+	    <Button
+	        android:id="@+id/ViewInBrowser"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/view_in_browser" />
+	
+	</LinearLayout>
+</ScrollView>
+	

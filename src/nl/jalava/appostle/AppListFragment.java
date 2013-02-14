@@ -40,6 +40,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
@@ -100,6 +101,9 @@ public class AppListFragment extends SherlockFragment {
 	    switch (id) {
 	    case R.id.refresh:
 		    new UpdateAppList().execute();
+	    	break;
+	    case R.id.app_types:
+	    	Toast.makeText(getActivity(), "To be done", Toast.LENGTH_SHORT).show();
 	    	break;
     	default:
     		return super.onOptionsItemSelected(item);
@@ -194,9 +198,11 @@ public class AppListFragment extends SherlockFragment {
 
 			// Fill the detail view if available.
 			FragmentManager fm = getFragmentManager();
-			DetailFragment det = (DetailFragment) fm.findFragmentById(R.id.app_detail);
-			if (det != null && det.isVisible()) {
-				det.fillDetail(adapter.data[0].packageName); // TODO: check data.
+			if (fm != null) {
+				DetailFragment det = (DetailFragment) fm.findFragmentById(R.id.app_detail);
+				if (det != null && det.isVisible()) {
+					det.fillDetail(adapter.data[0].packageName); // TODO: check data.
+				}
 			}
 		}
 	}

@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AppAdapter extends ArrayAdapter<App> {
+	private final static String TAG = "APP_ADAPTER";
+	
 	Context context;
 	int layoutResourceId;
 	App data[] = null;
@@ -48,7 +52,6 @@ public class AppAdapter extends ArrayAdapter<App> {
         View row = convertView;
         AppHolder holder = null;
         App app = data[position];
-        final String pkg;        
 
         if(row == null)
         {
@@ -57,35 +60,21 @@ public class AppAdapter extends ArrayAdapter<App> {
             
             holder = new AppHolder();
             holder.image = (ImageView)row.findViewById(R.id.app_image);
-            holder.name = (TextView)row.findViewById(R.id.app_name);
-            holder.date = (TextView)row.findViewById(R.id.app_date);
+            holder.info = (TextView)row.findViewById(R.id.app_name);
             row.setTag(holder);
         }
         else
         {
-        	holder = (AppHolder)row.getTag();
+        	holder = (AppHolder) row.getTag();
         }
 
-        pkg = app.packageName;
-        
-        // Play button clicked; launch Play Store.
-        row.findViewById(R.id.playButton).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(context, "Google Play package: " + pkg, Toast.LENGTH_SHORT).show();
-				try {
-					context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkg)));
-				} catch (android.content.ActivityNotFoundException anfe) {
-					context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + pkg)));
-				}
-			}
-    	});
-
-        holder.name.setText(app.name);
-        holder.date.setText(app.date + " (" + app.version + ")");
+        // App name, update date and version.
+        holder.info.setText(Html.fromHtml("<h3>" + app.name + "</h3>" + 
+        		  "<h7>" + app.date + "\u00A0(" + app.version +")<h7>"));
         try {
 			app.icon = context.getPackageManager().getApplicationIcon(app.packageName);
 		} catch (NameNotFoundException e) {
+			Log.e(TAG, e.getMessage());
 			app.icon = null;
 		}
         holder.image.setImageDrawable(app.icon);
@@ -95,8 +84,7 @@ public class AppAdapter extends ArrayAdapter<App> {
     
     static class AppHolder
     {
-        TextView name;
-        TextView date;
+        TextView info;
         ImageView image;
     }	
 }

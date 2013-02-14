@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class DetailFragment extends SherlockFragment {
+	private final static String TAG = "DETAIL_FRAGMENT";
+	private final static String PREFS_LOCALE = "LC";
+	
 	private View view = null;
 	private String package_name = null;
 	private String langcodes[] = null; // List of language codes.
@@ -34,7 +36,7 @@ public class DetailFragment extends SherlockFragment {
         super.onCreate(savedInstanceState);
 
         prefs = getActivity().getSharedPreferences("DetailFragment", Context.MODE_PRIVATE);
-        curLC = prefs.getString("lc", "en");
+        curLC = prefs.getString(PREFS_LOCALE, "en");
     }	
 	
 	@Override
@@ -82,13 +84,13 @@ public class DetailFragment extends SherlockFragment {
 			}
 		});
 
-		// Launch the app.
+		// Clicking the app icon opens the app.
 		ImageView open = (ImageView) view.findViewById(R.id.detail_image);
 		open.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Context context = v.getContext();
-				Toast.makeText(context, "Opening: " + package_name, Toast.LENGTH_SHORT).show();
+				Log.i(TAG, "Opening package " + package_name);
 				Intent LaunchIntent = context.getPackageManager().getLaunchIntentForPackage(package_name);
 				startActivity(LaunchIntent);
 			}
@@ -99,6 +101,7 @@ public class DetailFragment extends SherlockFragment {
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Log.i(TAG, "Opening in browser: " + package_name);
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?" +
 						"id=" + package_name +
 						"&hl=" + curLC)));
@@ -113,7 +116,7 @@ public class DetailFragment extends SherlockFragment {
         super.onPause();
 
         SharedPreferences.Editor ed = prefs.edit();
-        ed.putString("lc", curLC);
+        ed.putString(PREFS_LOCALE, curLC);
         ed.commit();
     }    
 
@@ -124,6 +127,7 @@ public class DetailFragment extends SherlockFragment {
 		try {
 			ai = pm.getApplicationInfo(app_package, 0);
 		} catch (final NameNotFoundException e) {
+			Log.e(TAG, e.getMessage());
 			return;
 		}
 
@@ -134,7 +138,7 @@ public class DetailFragment extends SherlockFragment {
 			pi = pm.getPackageInfo(app_package, 0);
 			version = pi.versionName;
 		} catch (NameNotFoundException e) {
-
+			Log.e(TAG, e.getMessage());
 		}
 			
 		TextView name = (TextView) view.findViewById(R.id.detail_app_name);
@@ -142,5 +146,4 @@ public class DetailFragment extends SherlockFragment {
 		image.setImageDrawable(pm.getApplicationIcon(ai));
 		name.setText(pm.getApplicationLabel(ai) + "\n" + version + "\n" + ai.packageName); 
 	}
-
 }

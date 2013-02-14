@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="app_types">
+        <item>‪Geïnstalleerde apps</item>
+        <item>Systeem apps</item>
+        <item>Alle apps</item>
+    </string-array>        
+</resources>
