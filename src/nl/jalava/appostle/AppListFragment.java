@@ -24,6 +24,7 @@ import java.util.Vector;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -32,22 +33,22 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.MenuItem;
 
 public class AppListFragment extends SherlockFragment {
-	final static String LOG = "APPLIST";
-	
+	final static String TAG = "APPLIST";
+	private final static String PREFS_APP_TYPE = "APP_TYPE";
+
 	// Listener.
 	private OnItemSelectedListener listener;
 
@@ -62,19 +63,54 @@ public class AppListFragment extends SherlockFragment {
 	private Context context;
 	private PackageManager pm;
 	private AppAdapter adapter;
+	private int curType;              // Current app type.
+	private SharedPreferences prefs;
+
+	@Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        prefs = getActivity().getSharedPreferences("AppListFragment", Context.MODE_PRIVATE);
+        curType = prefs.getInt(PREFS_APP_TYPE, 0);
+    }	
 	
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        SharedPreferences.Editor ed = prefs.edit();
+        ed.putInt(PREFS_APP_TYPE, curType);
+        ed.commit();
+    }  
+    
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 	    View view = inflater.inflate(R.layout.app_list, container, false);
 		appList = (ListView) view.findViewById(R.id.listView1);
 		progress = (ProgressBar) view.findViewById(R.id.progressBar);
 		progress_loading = (TextView) view.findViewById(R.id.progress_loading);
+	    context = view.getContext();
 
 		// Use the action bar.
 		setHasOptionsMenu(true);
-
 		setRetainInstance(true);
-		
+
+		// Add drop down list with app types to the actionbar.
+		ActionBar bar = getSherlockActivity().getSupportActionBar();
+		ArrayAdapter<CharSequence> apptype = ArrayAdapter.createFromResource(bar.getThemedContext(), R.array.app_types, R.layout.sherlock_spinner_item);
+		apptype.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		bar.setListNavigationCallbacks(apptype, new ActionBar.OnNavigationListener() {
+			// Update app list with chosen app type.
+			@Override
+			public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+				curType = itemPosition;
+			    new UpdateAppList().execute();
+				return false;
+			}
+		});
+		bar.setSelectedNavigationItem(curType);
+
 		appList.setClickable(true);
 	    appList.setFastScrollEnabled(true);
 
@@ -87,7 +123,6 @@ public class AppListFragment extends SherlockFragment {
 				}
 	    });
 
-	    context = view.getContext();
 	    pm = context.getPackageManager();
 	
 	    new UpdateAppList().execute();
@@ -101,9 +136,6 @@ public class AppListFragment extends SherlockFragment {
 	    switch (id) {
 	    case R.id.refresh:
 		    new UpdateAppList().execute();
-	    	break;
-	    case R.id.app_types:
-	    	Toast.makeText(getActivity(), "To be done", Toast.LENGTH_SHORT).show();
 	    	break;
     	default:
     		return super.onOptionsItemSelected(item);
@@ -125,34 +157,38 @@ public class AppListFragment extends SherlockFragment {
 				continue;
 			}
 
-			// Only installed apps. TODO: Setting in options.
-			if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-				String name = (String) pm.getApplicationLabel(ai);
-				
-				String appFile = ai.sourceDir;
-
-				// Get last updated date.
-				long updated;
-				if (Build.VERSION.SDK_INT >= 9) {
-					updated = pi.lastUpdateTime;
-				} else {
-					// Date from app directory.
-					updated = new File(appFile).lastModified();
-				}
-
-				// Localized date.
-				String dateString = android.text.format.DateFormat.getDateFormat(context).format(new Date(updated));
-				
-				// Get app info.
-				App app = new App();
-				app.name = name;
-				app.date = dateString;
-				app.version = pi.versionName;
-				//app.icon = pm.getApplicationIcon(ai);
-				app.packageName = pi.packageName;
-				app.lastUpdateTime = updated;
-				app_data.add(app);
+			// Which apps?
+			switch (curType) {
+			case 0:	if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) != 0) continue; // Skip system apps.
+					break;
+			case 1: if ((ai.flags & ApplicationInfo.FLAG_SYSTEM) == 0) continue; // Skip installed apps.
+			        break;
 			}
+
+			String name = (String) pm.getApplicationLabel(ai);
+			
+			String appFile = ai.sourceDir;
+
+			// Get last updated date.
+			long updated;
+			if (Build.VERSION.SDK_INT >= 9) {
+				updated = pi.lastUpdateTime;
+			} else {
+				// Date from app directory.
+				updated = new File(appFile).lastModified();
+			}
+
+			// Localized date.
+			String dateString = android.text.format.DateFormat.getDateFormat(context).format(new Date(updated));
+			
+			// Get app info.
+			App app = new App();
+			app.name = name;
+			app.date = dateString;
+			app.version = pi.versionName;
+			app.packageName = pi.packageName;
+			app.lastUpdateTime = updated;
+			app_data.add(app);
 		}
 		 
 		// Copy the Vector into the array.
