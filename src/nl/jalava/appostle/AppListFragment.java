@@ -33,9 +33,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -111,6 +113,12 @@ public class AppListFragment extends SherlockFragment {
 		});
 		bar.setSelectedNavigationItem(curType);
 
+		// Hide title if screen width is too small.
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getSherlockActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		if (displaymetrics.widthPixels <= 480) bar.setDisplayShowTitleEnabled(false);
+		
+		// Make list clickable and fast scrollable.
 		appList.setClickable(true);
 	    appList.setFastScrollEnabled(true);
 
