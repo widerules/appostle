@@ -5,7 +5,6 @@
         android:layout_height="fill_parent" >
 
 	<LinearLayout
-	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical" >
@@ -62,7 +61,25 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:text="@string/view_in_browser" />
-	
+
+   		<View
+	   	    android:id="@+id/separator2"
+	   	    android:layout_width="fill_parent"
+	   	    android:layout_height="1dip"
+	   	    android:background="#000" />
+		
+	    <Button
+	        android:id="@+id/OpenAppInfo"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Open App Info" />
+
+		    <Button
+	        android:id="@+id/CertificateInfo"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Certificate Info" />
+	    
 	</LinearLayout>
 </ScrollView>
 	

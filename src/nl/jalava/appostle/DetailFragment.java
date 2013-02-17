@@ -1,14 +1,27 @@
 package nl.jalava.appostle;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +90,9 @@ public class DetailFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				try {
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + package_name)));
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + package_name));
+					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET|Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
 				} catch (android.content.ActivityNotFoundException anfe) {
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + package_name)));
 				}
@@ -108,10 +123,29 @@ public class DetailFragment extends SherlockFragment {
 			}
 		});
 		
+		// App Info.
+		button = (Button) view.findViewById(R.id.OpenAppInfo);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showInstalledAppDetails(view.getContext(), package_name);
+			}
+		});
+
+		// Certificate info.
+		button = (Button) view.findViewById(R.id.CertificateInfo);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showCertificateInfo(package_name);
+			}
+		});
+
+		
 	    return view;
 	}
 
-    @Override
+	@Override
     public void onPause() {
         super.onPause();
 
@@ -145,5 +179,81 @@ public class DetailFragment extends SherlockFragment {
 		ImageView image = (ImageView) view.findViewById(R.id.detail_image);
 		image.setImageDrawable(pm.getApplicationIcon(ai));
 		name.setText(pm.getApplicationLabel(ai) + "\n" + version + "\n" + ai.packageName); 
+	}
+
+    // This code is from: http://stackoverflow.com/questions/4421527/start-android-application-info-screen
+    private static final String SCHEME = "package";
+    private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
+    private static final String APP_PKG_NAME_22 = "pkg";
+    private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
+    private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
+
+    @SuppressLint("InlinedApi")
+	private static void showInstalledAppDetails(Context context, String packageName) {
+        Intent intent = new Intent();
+        final int apiLevel = Build.VERSION.SDK_INT;
+        if (apiLevel >= 9) { // above 2.3
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts(SCHEME, packageName, null);
+            intent.setData(uri);
+        } else { // below 2.3
+            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22
+                    : APP_PKG_NAME_21);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
+                    APP_DETAILS_CLASS_NAME);
+            intent.putExtra(appPkgName, packageName);
+        }
+        context.startActivity(intent);
+    }
+    
+    // Code from: http://thomascannon.net/misc/android_apk_certificate/
+    private void showCertificateInfo(String packageName) {
+    	PackageManager pm = view.getContext().getPackageManager();
+    	PackageInfo packageInfo = null;
+    	
+    	try {
+    		packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
+		} catch (NameNotFoundException e) {
+			return;
+		}
+    	Signature[] signatures = packageInfo.signatures;
+        // cert = DER encoded X.509 certificate:
+        byte[] cert = signatures[0].toByteArray();
+        InputStream input = new ByteArrayInputStream(cert);
+
+        CertificateFactory cf = null;
+        try {
+        	cf = CertificateFactory.getInstance("X509");
+        } catch (CertificateException e) {
+            return;
+        }
+        
+        X509Certificate c = null;
+        String certinf = null;
+        try {
+            c = (X509Certificate) cf.generateCertificate(input);
+            certinf = "Certificate for: " + c.getSubjectDN() +
+        	        "\n\nIssued by: " + c.getIssuerDN() +
+        	        "\n\nValid from " + c.getNotBefore() + " to " + c.getNotAfter() +
+        	        "\n\nSN# " + c.getSerialNumber() +
+        	        "\n\nGenerated with " + c.getSigAlgName();
+        } catch (CertificateException e) {
+        	certinf = "Error retrieving certificate info. Message:\n" + e.getMessage();
+        }
+        
+        // Show certificate info.
+        // TODO: Use dialog layout.
+        Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setMessage(certinf);
+        builder.setCancelable(true);
+        builder.setTitle("Certificate Info");
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        	public void onClick(DialogInterface dialog, int which) {
+        		dialog.dismiss();
+        	}
+    	});
+        AlertDialog dialog = builder.create();
+        dialog.show();   	
 	}
 }
