@@ -233,13 +233,14 @@ public class DetailFragment extends SherlockFragment {
         String certinf = null;
         try {
             c = (X509Certificate) cf.generateCertificate(input);
-            certinf = "Certificate for: " + c.getSubjectDN() +
-        	        "\n\nIssued by: " + c.getIssuerDN() +
-        	        "\n\nValid from " + c.getNotBefore() + " to " + c.getNotAfter() +
-        	        "\n\nSN# " + c.getSerialNumber() +
-        	        "\n\nGenerated with " + c.getSigAlgName();
+            certinf = String.format(getResources().getString(R.string.certificate_info,
+                      c.getSubjectDN(), 
+                      c.getIssuerDN(), 
+                      c.getNotBefore(), 
+                      c.getNotAfter(), 
+                      c.getSigAlgName())); 
         } catch (CertificateException e) {
-        	certinf = "Error retrieving certificate info. Message:\n" + e.getMessage();
+        	certinf = getResources().getString(R.string.certificate_error) + e.getMessage(); 
         }
         
         // Show certificate info.
@@ -247,7 +248,7 @@ public class DetailFragment extends SherlockFragment {
         Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setMessage(certinf);
         builder.setCancelable(true);
-        builder.setTitle("Certificate Info");
+        builder.setTitle(getResources().getString(R.string.certificate_title));
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
         	public void onClick(DialogInterface dialog, int which) {
         		dialog.dismiss();

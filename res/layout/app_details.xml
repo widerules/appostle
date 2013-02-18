@@ -72,13 +72,13 @@
 	        android:id="@+id/OpenAppInfo"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Open App Info" />
+	        android:text="@string/open_app_info" />
 
 		    <Button
-	        android:id="@+id/CertificateInfo"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="Certificate Info" />
+		        android:id="@+id/CertificateInfo"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/certificate_title" />
 	    
 	</LinearLayout>
 </ScrollView>
