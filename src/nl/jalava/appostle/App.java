@@ -15,12 +15,9 @@
  */
 package nl.jalava.appostle;
 
-import java.io.Serializable;
-
 import android.graphics.drawable.Drawable;
 
-@SuppressWarnings("serial") //with this annotation we are going to hide compiler warning
-public class App  implements Serializable {
+public class App {
 	public Drawable icon;
 	public String name;
 	public String date;

@@ -22,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -43,6 +45,7 @@ public class DetailFragment extends SherlockFragment {
 	private String langcodes[] = null; // List of language codes.
 	private String curLC;              // Current language code.
 	private SharedPreferences prefs;
+	private ScrollView scroll;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,9 @@ public class DetailFragment extends SherlockFragment {
 
         prefs = getActivity().getSharedPreferences("DetailFragment", Context.MODE_PRIVATE);
         curLC = prefs.getString(PREFS_LOCALE, "en");
-    }	
+
+        langcodes = getResources().getStringArray(R.array.ln);
+	}	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +63,8 @@ public class DetailFragment extends SherlockFragment {
 
         // Spinner for choosing language.
 		final Spinner languageSpinner = (Spinner) view.findViewById(R.id.languagesSpinner);
-		langcodes = getResources().getStringArray(R.array.ln);
+		scroll = (ScrollView) view.findViewById(R.id.scrollView);
+		scroll.setVisibility(View.INVISIBLE);
 
 		// Set chosen language in spinner.
 		int p = 0;
@@ -69,6 +75,7 @@ public class DetailFragment extends SherlockFragment {
 		    p++;
 		}
 		languageSpinner.setSelection(p);	
+
 		
 		// Handle choosen language.
 		languageSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -117,11 +124,22 @@ public class DetailFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				Log.i(TAG, "Opening in browser: " + package_name);
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?" +
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?" +
 						"id=" + package_name +
 						"&hl=" + curLC)));
 			}
 		});
+
+		button = (Button) view.findViewById(R.id.appBrain);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Opening in AppBrain: " + package_name);
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.appbrain.com/app/" +
+						package_name)));
+			}
+		});
+		
 		
 		// App Info.
 		button = (Button) view.findViewById(R.id.OpenAppInfo);
@@ -155,7 +173,7 @@ public class DetailFragment extends SherlockFragment {
     }    
 
     public void fillDetail(String app_package) {
-		package_name = app_package;
+    	package_name = app_package;
 		PackageManager pm = getView().getContext().getPackageManager();
 		ApplicationInfo ai = null;
 		try {
@@ -178,7 +196,10 @@ public class DetailFragment extends SherlockFragment {
 		TextView name = (TextView) view.findViewById(R.id.detail_app_name);
 		ImageView image = (ImageView) view.findViewById(R.id.detail_image);
 		image.setImageDrawable(pm.getApplicationIcon(ai));
-		name.setText(pm.getApplicationLabel(ai) + "\n" + version + "\n" + ai.packageName); 
+		name.setText(Html.fromHtml("<h3>" + pm.getApplicationLabel(ai) + "</h3>" + 
+				"<h7>" + version + "<br/>" + ai.packageName + "</h7>"));
+
+		scroll.setVisibility(View.VISIBLE);
 	}
 
     // This code is from: http://stackoverflow.com/questions/4421527/start-android-application-info-screen

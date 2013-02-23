@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scrollView1"
+        android:id="@+id/scrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
@@ -15,8 +15,8 @@
 	
 	        <ImageView
 	            android:id="@+id/detail_image"
-	            android:layout_width="64dp"
-	            android:layout_height="64dp"
+	            android:layout_width="72dp"
+	            android:layout_height="72dp"
 	            android:padding="4dp"
 	            android:src="@drawable/ic_launcher" />
 	
@@ -25,7 +25,10 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
+	            android:lineSpacingExtra="8dp"
+	            android:lineSpacingMultiplier="0.4"
 	            android:text="" />
+
 	    </LinearLayout>
 	
 	    <Button
@@ -39,34 +42,39 @@
 	   	    android:layout_width="fill_parent"
 	   	    android:layout_height="1dip"
 	   	    android:background="#000" />
-		
-	    <TextView
-	        android:id="@+id/textView1"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:paddingTop="4dp"
-	        android:text="@string/choose_language"
-	        android:textAlignment="center" />
-	
-	    <Spinner
-	        android:id="@+id/languagesSpinner"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:entries="@array/languages"
-	        android:prompt="@string/choose_language" />
-	
+
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" >
+
+	        <Spinner
+	            android:id="@+id/languagesSpinner"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:entries="@array/languages"
+	            android:prompt="@string/choose_language" />
+
+	        <Button
+	            android:id="@+id/ViewInBrowser"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="0"
+	            android:text="@string/view_in_browser" />
+
+	    </LinearLayout>
+
 	    <Button
-	        android:id="@+id/ViewInBrowser"
+	        android:id="@+id/appBrain"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/view_in_browser" />
+	        android:text="@string/view_on_appbrain" />
 
    		<View
-	   	    android:id="@+id/separator2"
-	   	    android:layout_width="fill_parent"
-	   	    android:layout_height="1dip"
-	   	    android:background="#000" />
+   		    android:id="@+id/separator2"
+   		    android:layout_width="fill_parent"
+   		    android:layout_height="1dip"
+   		    android:background="#000" />
 		
 	    <Button
 	        android:id="@+id/OpenAppInfo"
