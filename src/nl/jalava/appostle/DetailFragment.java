@@ -98,7 +98,7 @@ public class DetailFragment extends SherlockFragment {
 			public void onClick(View v) {
 				try {
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + package_name));
-					intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET|Intent.FLAG_ACTIVITY_NEW_TASK);
+					//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET|Intent.FLAG_ACTIVITY_NEW_TASK);
 					startActivity(intent);
 				} catch (android.content.ActivityNotFoundException anfe) {
 					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + package_name)));

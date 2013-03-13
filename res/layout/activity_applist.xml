@@ -9,7 +9,7 @@
         android:id="@+id/apps_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="4"
         class="nl.jalava.appostle.AppListFragment"
         tools:layout="@layout/app_list" >
 
@@ -19,7 +19,7 @@
         android:id="@+id/app_detail"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_weight="5"
         class="nl.jalava.appostle.DetailFragment"
         tools:layout="@layout/app_details" >
     </fragment>

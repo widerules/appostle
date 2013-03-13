@@ -11,12 +11,15 @@
 	
 	    <LinearLayout
 	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="4dp"
+	        android:background="@drawable/shadow_left" >
 	
 	        <ImageView
 	            android:id="@+id/detail_image"
-	            android:layout_width="72dp"
-	            android:layout_height="72dp"
+	            android:layout_width="96dp"
+	            android:layout_height="96dp"
+	            android:layout_marginRight="8dp"
 	            android:padding="4dp"
 	            android:src="@drawable/ic_launcher" />
 	
@@ -30,28 +33,42 @@
 	            android:text="" />
 
 	    </LinearLayout>
-	
-	    <Button
-	        android:id="@+id/ViewInPlayStoreButton"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/view_in_play_store" />
-	    
-		<View
-	   	    android:id="@+id/separator"
-	   	    android:layout_width="fill_parent"
-	   	    android:layout_height="1dip"
-	   	    android:background="#000" />
 
-	    <LinearLayout
+	    <RelativeLayout
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content" >
+
+	        <Button
+	            android:id="@+id/ViewInPlayStoreButton"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/view_in_play_store" />
+
+	        <Button
+	            android:id="@+id/appBrain"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignLeft="@+id/CertificateInfo"
+	            android:layout_alignParentRight="true"
+	            android:layout_alignParentTop="true"
+	            android:text="@string/appbrain" />
+
+	        <View
+	            android:id="@+id/separator"
+	            android:layout_width="fill_parent"
+	            android:layout_height="1dip"
+	            android:layout_below="@id/appBrain"
+	            android:layout_marginBottom="4dp"
+	            android:layout_marginTop="4dp"
+	            android:background="#000" />
 
 	        <Spinner
 	            android:id="@+id/languagesSpinner"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
-	            android:layout_weight="1"
+	            android:layout_alignBottom="@+id/ViewInBrowser"
+	            android:layout_alignRight="@+id/ViewInPlayStoreButton"
+	            android:layout_below="@id/separator"
 	            android:entries="@array/languages"
 	            android:prompt="@string/choose_language" />
 
@@ -59,34 +76,36 @@
 	            android:id="@+id/ViewInBrowser"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_weight="0"
+	            android:layout_alignParentRight="true"
+	            android:layout_below="@id/separator"
 	            android:text="@string/view_in_browser" />
 
-	    </LinearLayout>
+	        <View
+	            android:id="@+id/separator2"
+	            android:layout_width="fill_parent"
+	            android:layout_height="1dip"
+	            android:layout_below="@id/ViewInBrowser"
+	            android:layout_marginBottom="4dp"
+	            android:layout_marginTop="4dp"
+	            android:background="#000" />
 
-	    <Button
-	        android:id="@+id/appBrain"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/view_on_appbrain" />
+	        <Button
+	            android:id="@+id/OpenAppInfo"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_below="@id/separator2"
+	            android:text="@string/open_app_info" />
 
-   		<View
-   		    android:id="@+id/separator2"
-   		    android:layout_width="fill_parent"
-   		    android:layout_height="1dip"
-   		    android:background="#000" />
-		
-	    <Button
-	        android:id="@+id/OpenAppInfo"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/open_app_info" />
+	        <Button
+	            android:id="@+id/CertificateInfo"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentBottom="true"
+	            android:layout_alignParentRight="true"
+	            android:layout_below="@id/separator2"
+	            android:text="@string/certificate_title" />
 
-		    <Button
-		        android:id="@+id/CertificateInfo"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:text="@string/certificate_title" />
+	    </RelativeLayout>
 	    
 	</LinearLayout>
 </ScrollView>

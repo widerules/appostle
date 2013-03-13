@@ -19,7 +19,8 @@
         android:id="@+id/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="8dp"
-        android:lineSpacingMultiplier="0.4" />
+        android:lineSpacingExtra="6dp"
+        android:lineSpacingMultiplier="0.35"
+        android:text="@string/about_license" />
 
 </LinearLayout>
