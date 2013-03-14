@@ -19,8 +19,9 @@
 	            android:id="@+id/detail_image"
 	            android:layout_width="96dp"
 	            android:layout_height="96dp"
-	            android:layout_marginRight="8dp"
+	            android:layout_marginRight="11dp"
 	            android:padding="4dp"
+	            android:layout_gravity="center_vertical"
 	            android:src="@drawable/ic_launcher" />
 	
 	        <TextView
@@ -28,9 +29,9 @@
 	            android:layout_width="0dp"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1"
-	            android:lineSpacingExtra="8dp"
+	            android:lineSpacingExtra="10dp"
 	            android:lineSpacingMultiplier="0.4"
-	            android:text="" />
+	            android:text="@string/abs__action_menu_overflow_description" />
 
 	    </LinearLayout>
 
@@ -44,20 +45,11 @@
 	            android:layout_height="wrap_content"
 	            android:text="@string/view_in_play_store" />
 
-	        <Button
-	            android:id="@+id/appBrain"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_alignLeft="@+id/CertificateInfo"
-	            android:layout_alignParentRight="true"
-	            android:layout_alignParentTop="true"
-	            android:text="@string/appbrain" />
-
 	        <View
 	            android:id="@+id/separator"
 	            android:layout_width="fill_parent"
 	            android:layout_height="1dip"
-	            android:layout_below="@id/appBrain"
+	            android:layout_below="@id/ViewInPlayStoreButton"
 	            android:layout_marginBottom="4dp"
 	            android:layout_marginTop="4dp"
 	            android:background="#000" />
@@ -67,8 +59,8 @@
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
 	            android:layout_alignBottom="@+id/ViewInBrowser"
-	            android:layout_alignRight="@+id/ViewInPlayStoreButton"
 	            android:layout_below="@id/separator"
+	            android:layout_toLeftOf="@+id/ViewInBrowser"
 	            android:entries="@array/languages"
 	            android:prompt="@string/choose_language" />
 
@@ -97,12 +89,19 @@
 	            android:text="@string/open_app_info" />
 
 	        <Button
+	            android:id="@+id/appBrain"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentTop="true"
+	            android:layout_toRightOf="@+id/ViewInPlayStoreButton"
+	            android:text="@string/appbrain" />
+
+	        <Button
 	            android:id="@+id/CertificateInfo"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentBottom="true"
-	            android:layout_alignParentRight="true"
-	            android:layout_below="@id/separator2"
+	            android:layout_toRightOf="@+id/OpenAppInfo"
 	            android:text="@string/certificate_title" />
 
 	    </RelativeLayout>
