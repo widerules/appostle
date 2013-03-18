@@ -172,7 +172,7 @@ public class DetailFragment extends SherlockFragment {
         ed.commit();
     }    
 
-    public void fillDetail(String app_package) {
+    public void fillDetail(String app_package, String app_date) {
     	package_name = app_package;
 		PackageManager pm = getView().getContext().getPackageManager();
 		ApplicationInfo ai = null;
@@ -197,7 +197,7 @@ public class DetailFragment extends SherlockFragment {
 		ImageView image = (ImageView) view.findViewById(R.id.detail_image);
 		image.setImageDrawable(pm.getApplicationIcon(ai));
 		name.setText(Html.fromHtml("<h3>" + pm.getApplicationLabel(ai) + "</h3>" + 
-				"<h7>" + version + "<br/>" + ai.packageName + "</h7>"));
+				"<h7>" + ai.packageName + "<br/>" + version + "<br/>" + app_date + "</h7>"));
 
 		scroll.setVisibility(View.VISIBLE);
 	}
@@ -218,11 +218,9 @@ public class DetailFragment extends SherlockFragment {
             Uri uri = Uri.fromParts(SCHEME, packageName, null);
             intent.setData(uri);
         } else { // below 2.3
-            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22
-                    : APP_PKG_NAME_21);
+            final String appPkgName = (apiLevel == 8 ? APP_PKG_NAME_22 : APP_PKG_NAME_21);
             intent.setAction(Intent.ACTION_VIEW);
-            intent.setClassName(APP_DETAILS_PACKAGE_NAME,
-                    APP_DETAILS_CLASS_NAME);
+            intent.setClassName(APP_DETAILS_PACKAGE_NAME, APP_DETAILS_CLASS_NAME);
             intent.putExtra(appPkgName, packageName);
         }
         context.startActivity(intent);
@@ -259,6 +257,7 @@ public class DetailFragment extends SherlockFragment {
                       c.getIssuerDN(), 
                       c.getNotBefore(), 
                       c.getNotAfter(), 
+                      c.getSerialNumber(),
                       c.getSigAlgName())); 
         } catch (CertificateException e) {
         	certinf = getResources().getString(R.string.certificate_error) + e.getMessage(); 

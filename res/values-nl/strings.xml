@@ -12,7 +12,7 @@
     <string name="view_in_browser">Bekijken in browser</string>
     <string name="loading_progress">Laden…</string>
     <string name="open_app_info">Open App-Info</string>    
-    <string name="certificate_info" formatted="false">Certificaat voor: %s\n\nUitgegeven door: %s\n\nGeldig van %s t/m %s\n\nGegenereerd met %s.</string>
+    <string name="certificate_info" formatted="false">Certificaat voor: %s\n\nUitgegeven door: %s\n\nGeldig van %s t/m %s\n\nSerienr.:%s\n\nGegenereerd met %s.</string>
     <string name="certificate_error" formatted="false">Fout bij ophalen certificaatinfo.\nMelding: </string>
     <string name="certificate_title">Certificaatinfo</string>
 	<string name="appbrain">AppBrain</string>

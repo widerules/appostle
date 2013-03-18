@@ -13,7 +13,7 @@
     <string name="loading_progress">Loading…</string>
     <string name="detail_open">Open</string>
     <string name="open_app_info">Open App Info</string>
-    <string name="certificate_info" formatted="false">Certificate for: %s\n\nIssued by: %s\n\nValid from %s to %s\n\nGenerated with %s.</string>
+    <string name="certificate_info" formatted="false">Certificate for: %s\n\nIssued by: %s\n\nValid from %s to %s\n\nSerial No: %s\n\nGenerated with %s.</string>
     <string name="certificate_error" formatted="false">Error retrieving certificate info.\nMessage: </string><string name="certificate_error" formatted="false">Error retrieving certificate info.\nMessage: </string>
     <string name="certificate_title">Certificate Info</string>
     <string name="appbrain">AppBrain</string>

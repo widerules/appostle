@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.jalava.appostle"
-    android:versionCode="006"
-    android:versionName="Alpha 6" >
+    android:versionCode="007"
+    android:versionName="Alpha 7" >
 
     <uses-sdk
         android:minSdkVersion="7"

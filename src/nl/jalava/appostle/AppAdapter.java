@@ -64,8 +64,9 @@ public class AppAdapter extends ArrayAdapter<App> {
         }
 
         // App name, update date and version.
-        holder.info.setText(Html.fromHtml("<h3>" + app.name + "</h3>" + 
-        		  "<h7>" + app.date + "\u00A0(" + app.version +")<h7>"));
+        holder.info.setText(Html.fromHtml("<h3>" + app.name + "</h3>" +
+        		  "<h7>" + app.date + "</h7>"));
+        		  //"<h7>" + app.date + "\u00A0(" + app.version +")</h7>"));
         try {
 			app.icon = context.getPackageManager().getApplicationIcon(app.packageName);
 		} catch (NameNotFoundException e) {

@@ -60,10 +60,13 @@ public class MainActivity extends SherlockFragmentActivity implements AppListFra
 	public void onAppSelected(App app) {
 	    DetailFragment fragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.app_detail);
         if (fragment != null && fragment.isInLayout()) {
-        	fragment.fillDetail(app.packageName);
+        	fragment.fillDetail(app.packageName, app.date);
         } else {
         	Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-        	intent.putExtra(DetailActivity.PACKAGE_NAME, app.packageName);
+        	Bundle extra = new Bundle();
+        	extra.putString(DetailActivity.PACKAGE_NAME, app.packageName);
+        	extra.putString(DetailActivity.PACKAGE_DATE, app.date);     	
+        	intent.putExtras(extra);
         	startActivity(intent);
         }
 	}

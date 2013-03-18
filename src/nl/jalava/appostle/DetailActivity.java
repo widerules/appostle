@@ -23,8 +23,11 @@ import android.os.Bundle;
 
 public class DetailActivity extends SherlockFragmentActivity {
 	public static final String PACKAGE_NAME = "package_name";
+	public static final String PACKAGE_DATE = "package_date";
+
 	private DetailFragment detail = null; 
-	private String app_package = null;
+	private String package_name = null;
+	private String package_date = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,11 @@ public class DetailActivity extends SherlockFragmentActivity {
 	    	detail = new DetailFragment();
 	    	getSupportFragmentManager().beginTransaction().add(android.R.id.content, detail).commit();
 	    }
-	    app_package = getIntent().getStringExtra(PACKAGE_NAME);
+	    
+	    // Get name and date from the extras bundle.
+	    Bundle extra = this.getIntent().getExtras();
+	    package_name = extra.getString(PACKAGE_NAME);
+	    package_date = extra.getString(PACKAGE_DATE);
   
 	    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Activate back button.
 	}
@@ -63,6 +70,6 @@ public class DetailActivity extends SherlockFragmentActivity {
 	public void onResume() {
 	    super.onResume();
 
-	    detail.fillDetail(app_package);
+	    detail.fillDetail(package_name, package_date);
 	}	
 } 

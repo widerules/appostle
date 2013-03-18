@@ -245,7 +245,7 @@ public class AppListFragment extends SherlockFragment {
 			if (fm != null) {
 				DetailFragment det = (DetailFragment) fm.findFragmentById(R.id.app_detail);
 				if (det != null && det.isVisible()) {
-					det.fillDetail(adapter.data[0].packageName); // TODO: check data.
+					det.fillDetail(adapter.data[0].packageName, adapter.data[0].date); // TODO: check data.
 				}
 			}
 		}
