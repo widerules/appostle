@@ -15,5 +15,6 @@
     <string name="certificate_info" formatted="false">Certificaat voor: %s\n\nUitgegeven door: %s\n\nGeldig van %s t/m %s\n\nSerienr.:%s\n\nGegenereerd met %s.</string>
     <string name="certificate_error" formatted="false">Fout bij ophalen certificaatinfo.\nMelding: </string>
     <string name="certificate_title">Certificaatinfo</string>
+    <string name="certificate_previous_serialno">(Vorig SN: %s)</string>
 	<string name="appbrain">AppBrain</string>
 </resources>

@@ -14,6 +14,7 @@
     <string name="open_app_info">Öffne Anwendungsinfo</string>
     <string name="certificate_info" formatted="false">Zertifikat für: %s\n\nHerausgegeben von: %s\n\nGültijg von %s bis %s\n\nSeriennr.:%s\n\nGegeneriert mit %s.</string>
     <string name="certificate_error" formatted="false">Fehler beim lesen des Zertifikates.\nNachricht: </string>
-    <string name="certificate_title">Zertifikat-Info</string>  
+    <string name="certificate_title">Zertifikat-Info</string>
+	<string name="certificate_previous_serialno">(Frühere SN: %s)</string>
     <string name="appbrain">AppBrain</string>    
 </resources>

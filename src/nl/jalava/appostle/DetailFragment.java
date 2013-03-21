@@ -2,6 +2,7 @@ package nl.jalava.appostle;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
@@ -230,6 +231,7 @@ public class DetailFragment extends SherlockFragment {
     private void showCertificateInfo(String packageName) {
     	PackageManager pm = view.getContext().getPackageManager();
     	PackageInfo packageInfo = null;
+    	prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
     	
     	try {
     		packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
@@ -249,16 +251,31 @@ public class DetailFragment extends SherlockFragment {
         }
         
         X509Certificate c = null;
-        String certinf = null;
+        String certinf = null;        
         try {
-            c = (X509Certificate) cf.generateCertificate(input);
+        	c = (X509Certificate) cf.generateCertificate(input);
+
+        	// Certificate serial number.
+        	// Store it for later reference.
+        	String sn1 = c.getSerialNumber().toString();
+        	String sn2 = prefs.getString(packageName, sn1);
+        	prefs.edit().putString(packageName, sn1);
+        	prefs.edit().commit();
+
+        	// Show previous serial number if no match with current serial number.
+        	// This means the certificate was changed.
+        	if (!sn1.equals(sn2)) {
+        		sn1 += " " + String.format(getResources().getString(R.string.certificate_previous_serialno, sn2));
+        	}
+        	
             certinf = String.format(getResources().getString(R.string.certificate_info,
                       c.getSubjectDN(), 
                       c.getIssuerDN(), 
                       c.getNotBefore(), 
                       c.getNotAfter(), 
-                      c.getSerialNumber(),
+                      sn1,
                       c.getSigAlgName())); 
+        	
         } catch (CertificateException e) {
         	certinf = getResources().getString(R.string.certificate_error) + e.getMessage(); 
         }
