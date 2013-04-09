@@ -5,11 +5,6 @@
         android:showAsAction="ifRoom|withText"
         android:icon="@drawable/ic_refresh">        
     </item>
-    <item
-        android:id="@+id/menu_help"
-        android:icon="@android:drawable/ic_menu_help"
-        android:showAsAction="never"
-        android:title="@string/help" />
     <item android:id="@+id/menu_about" 
         android:title="@string/about" 
         android:showAsAction="never"

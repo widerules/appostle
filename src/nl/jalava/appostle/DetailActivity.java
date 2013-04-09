@@ -51,7 +51,8 @@ public class DetailActivity extends SherlockFragmentActivity {
 	    package_name = extra.getString(PACKAGE_NAME);
 	    package_date = extra.getString(PACKAGE_DATE);
   
-	    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // Activate back button.
+	    // Activate back button.
+	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	// Handle the back button.

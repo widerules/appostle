@@ -131,6 +131,7 @@ public class DetailFragment extends SherlockFragment {
 			}
 		});
 
+		// AppBrain button.
 		button = (Button) view.findViewById(R.id.appBrain);
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -231,15 +232,17 @@ public class DetailFragment extends SherlockFragment {
     private void showCertificateInfo(String packageName) {
     	PackageManager pm = view.getContext().getPackageManager();
     	PackageInfo packageInfo = null;
-    	prefs = getActivity().getPreferences(Context.MODE_PRIVATE);
     	
     	try {
     		packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
 		} catch (NameNotFoundException e) {
+			Log.e(TAG, e.getMessage());
 			return;
 		}
+
     	Signature[] signatures = packageInfo.signatures;
-        // cert = DER encoded X.509 certificate:
+
+    	// cert = DER encoded X.509 certificate:
         byte[] cert = signatures[0].toByteArray();
         InputStream input = new ByteArrayInputStream(cert);
 
@@ -247,6 +250,7 @@ public class DetailFragment extends SherlockFragment {
         try {
         	cf = CertificateFactory.getInstance("X509");
         } catch (CertificateException e) {
+        	Log.e(TAG, e.getMessage());
             return;
         }
         
@@ -254,29 +258,17 @@ public class DetailFragment extends SherlockFragment {
         String certinf = null;        
         try {
         	c = (X509Certificate) cf.generateCertificate(input);
-
-        	// Certificate serial number.
-        	// Store it for later reference.
-        	String sn1 = c.getSerialNumber().toString();
-        	String sn2 = prefs.getString(packageName, sn1);
-        	prefs.edit().putString(packageName, sn1);
-        	prefs.edit().commit();
-
-        	// Show previous serial number if no match with current serial number.
-        	// This means the certificate was changed.
-        	if (!sn1.equals(sn2)) {
-        		sn1 += " " + String.format(getResources().getString(R.string.certificate_previous_serialno, sn2));
-        	}
-        	
+      	
             certinf = String.format(getResources().getString(R.string.certificate_info,
                       c.getSubjectDN(), 
                       c.getIssuerDN(), 
                       c.getNotBefore(), 
                       c.getNotAfter(), 
-                      sn1,
+                      c.getSerialNumber().toString(),
                       c.getSigAlgName())); 
         	
         } catch (CertificateException e) {
+        	// Display the error.
         	certinf = getResources().getString(R.string.certificate_error) + e.getMessage(); 
         }
         

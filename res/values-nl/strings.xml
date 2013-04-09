@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">Appostle</string>
     <string name="menu_settings">Instellingen</string>
-    <string name="help">Hulp</string>
     <string name="about">Over</string>
     <string name="refresh">Vernieuwen</string>
     <string name="about_license">Appostle is Open Source onder de Apache 2.0 licentie.\nGa naar: http://code.google.com/p/appostle\n\nPowered by ActionBarSherlock</string>
@@ -15,6 +14,5 @@
     <string name="certificate_info" formatted="false">Certificaat voor: %s\n\nUitgegeven door: %s\n\nGeldig van %s t/m %s\n\nSerienr.:%s\n\nGegenereerd met %s.</string>
     <string name="certificate_error" formatted="false">Fout bij ophalen certificaatinfo.\nMelding: </string>
     <string name="certificate_title">Certificaatinfo</string>
-    <string name="certificate_previous_serialno">(Vorig SN: %s)</string>
 	<string name="appbrain">AppBrain</string>
 </resources>

@@ -13,15 +13,16 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="4dp"
-	        android:background="@drawable/shadow_left" >
+	        android:background="#FF44DD22" >
 	
 	        <ImageView
 	            android:id="@+id/detail_image"
 	            android:layout_width="96dp"
 	            android:layout_height="96dp"
-	            android:layout_marginRight="11dp"
-	            android:padding="4dp"
 	            android:layout_gravity="center_vertical"
+	            android:layout_marginRight="11dp"
+	            android:background="#22FFFFFF"
+	            android:padding="4dp"
 	            android:src="@drawable/ic_launcher" />
 	
 	        <TextView
