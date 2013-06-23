@@ -107,6 +107,31 @@ public class DetailFragment extends SherlockFragment {
 			}
 		});
 
+		// Button clicked: Open Amazon App Store or browser.
+		button = (Button) view.findViewById(R.id.amazon);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("amzn://apps/android?p=" + package_name));
+					//intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET|Intent.FLAG_ACTIVITY_NEW_TASK);
+					startActivity(intent);
+				} catch (android.content.ActivityNotFoundException anfe) {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.amazon.com/gp/mas/dl/android/" + package_name)));
+				}
+			}
+		});
+
+		// AppBrain button.
+		button = (Button) view.findViewById(R.id.appBrain);
+		button.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i(TAG, "Opening in AppBrain: " + package_name);
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.appbrain.com/app/" + package_name)));
+			}
+		});
+
 		// Clicking the app icon opens the app.
 		ImageView open = (ImageView) view.findViewById(R.id.detail_image);
 		open.setOnClickListener(new View.OnClickListener() {
@@ -131,18 +156,6 @@ public class DetailFragment extends SherlockFragment {
 			}
 		});
 
-		// AppBrain button.
-		button = (Button) view.findViewById(R.id.appBrain);
-		button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Log.i(TAG, "Opening in AppBrain: " + package_name);
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.appbrain.com/app/" +
-						package_name)));
-			}
-		});
-		
-		
 		// App Info.
 		button = (Button) view.findViewById(R.id.OpenAppInfo);
 		button.setOnClickListener(new View.OnClickListener() {

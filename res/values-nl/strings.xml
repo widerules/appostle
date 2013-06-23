@@ -6,7 +6,7 @@
     <string name="refresh">Vernieuwen</string>
     <string name="about_license">Appostle is Open Source onder de Apache 2.0 licentie.\nGa naar: http://code.google.com/p/appostle\n\nPowered by ActionBarSherlock</string>
     <string name="about_me">©2013 Jeffrey Rusterholz</string>
-    <string name="view_in_play_store">Bekijken in Play Store</string>
+    <string name="view_in_play_store">Play Store</string>
     <string name="choose_language">Taal kiezen</string>
     <string name="view_in_browser">Bekijken in browser</string>
     <string name="loading_progress">Laden…</string>

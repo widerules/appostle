@@ -6,7 +6,7 @@
     <string name="refresh">Refresh</string>
     <string name="about_license">Appostle is Open Source under the Apache License, Version 2.0\nVisit http://code.google.com/p/appostle\n\nPowered by ActionBarSherlock</string>
     <string name="about_me">&lt;h3>Appostle&lt;h3>©2013 Jeffrey Rusterholz</string>
-    <string name="view_in_play_store">View in Play Store</string>
+    <string name="view_in_play_store">Play Store</string>
     <string name="choose_language">Choose language</string>
     <string name="view_in_browser">View in Browser</string>
     <string name="loading_progress">Loading…</string>
@@ -15,4 +15,5 @@
     <string name="certificate_error" formatted="false">Error retrieving certificate info.\nMessage: </string><string name="certificate_error" formatted="false">Error retrieving certificate info.\nMessage: </string>
     <string name="certificate_title">Certificate Info</string>
     <string name="appbrain">AppBrain</string>
+    <string name="amazon">Amazon</string>
 </resources>
