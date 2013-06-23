@@ -18,8 +18,7 @@
     <View
         android:layout_width="16dp"
         android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/shadow_left" />
+        android:layout_alignParentRight="true" />
     	
    
     <TextView
@@ -33,7 +32,9 @@
     <ListView
         android:id="@+id/listView1"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:background="#dddddd" >
+
     </ListView>
 
 </RelativeLayout>

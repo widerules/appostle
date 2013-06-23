@@ -12,8 +12,7 @@
 	    <LinearLayout
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginBottom="4dp"
-	        android:background="#FF44DD22" >
+	        android:layout_marginBottom="4dp" >
 	
 	        <ImageView
 	            android:id="@+id/detail_image"
@@ -21,7 +20,6 @@
 	            android:layout_height="96dp"
 	            android:layout_gravity="center_vertical"
 	            android:layout_marginRight="11dp"
-	            android:background="#22FFFFFF"
 	            android:padding="4dp"
 	            android:src="@drawable/ic_launcher" />
 	
@@ -35,7 +33,14 @@
 	            android:text="@string/abs__action_menu_overflow_description" />
 
 	    </LinearLayout>
-
+	        <View
+	            android:id="@+id/separator0"
+	            android:layout_width="fill_parent"
+	            android:layout_height="2dip"
+	            android:layout_marginBottom="4dp"
+	            android:layout_marginTop="4dp"
+	            android:background="#f00" />
+	    
 	    <RelativeLayout
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content" >
@@ -49,11 +54,11 @@
 	        <View
 	            android:id="@+id/separator"
 	            android:layout_width="fill_parent"
-	            android:layout_height="1dip"
+	            android:layout_height="2dip"
 	            android:layout_below="@id/ViewInPlayStoreButton"
 	            android:layout_marginBottom="4dp"
 	            android:layout_marginTop="4dp"
-	            android:background="#000" />
+	            android:background="#f00" />
 
 	        <Spinner
 	            android:id="@+id/languagesSpinner"
@@ -76,11 +81,11 @@
 	        <View
 	            android:id="@+id/separator2"
 	            android:layout_width="fill_parent"
-	            android:layout_height="1dip"
+	            android:layout_height="2dip"
 	            android:layout_below="@id/ViewInBrowser"
 	            android:layout_marginBottom="4dp"
 	            android:layout_marginTop="4dp"
-	            android:background="#000" />
+	            android:background="#f00" />
 
 	        <Button
 	            android:id="@+id/OpenAppInfo"

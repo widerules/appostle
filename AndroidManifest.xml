@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nl.jalava.appostle"
     android:versionCode="0"
-    android:versionName="Beta 1" >
+    android:versionName="Beta 5" >
 
     <uses-sdk
         android:minSdkVersion="7"

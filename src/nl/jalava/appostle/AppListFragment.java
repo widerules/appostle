@@ -91,7 +91,11 @@ public class AppListFragment extends SherlockFragment {
 		appList = (ListView) view.findViewById(R.id.listView1);
 		progress = (ProgressBar) view.findViewById(R.id.progressBar);
 		progress_loading = (TextView) view.findViewById(R.id.progress_loading);
-	    context = view.getContext();
+
+		progress.bringToFront();
+		progress_loading.bringToFront();
+		
+		context = view.getContext();
 
 		// Use the action bar.
 		setHasOptionsMenu(true);
