@@ -10,7 +10,7 @@
     <string name="choose_language">Sprache wählen</string>
     <string name="view_in_browser">Im Browser anschauen</string>
     <string name="loading_progress">Laden…</string>
-    <string name="open_app_info">Öffne Anwendungsinfo</string>
+    <string name="open_app_info">Öffne App-Info</string>
     <string name="certificate_info" formatted="false">Zertifikat für: %s\n\nHerausgegeben von: %s\n\nGültijg von %s bis %s\n\nSeriennr.:%s\n\nGegeneriert mit %s.</string>
     <string name="certificate_error" formatted="false">Fehler beim lesen des Zertifikates.\nNachricht: </string>
     <string name="certificate_title">Zertifikat-Info</string>

@@ -2,23 +2,28 @@ package nl.jalava.appostle;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.math.BigInteger;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -133,6 +138,7 @@ public class DetailFragment extends SherlockFragment {
 		});
 
 		// Clicking the app icon opens the app.
+		// TODO: show big icon. Use button to open app.
 		ImageView open = (ImageView) view.findViewById(R.id.detail_image);
 		open.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -207,16 +213,85 @@ public class DetailFragment extends SherlockFragment {
 		} catch (NameNotFoundException e) {
 			Log.e(TAG, e.getMessage());
 		}
-			
-		TextView name = (TextView) view.findViewById(R.id.detail_app_name);
-		ImageView image = (ImageView) view.findViewById(R.id.detail_image);
-		image.setImageDrawable(pm.getApplicationIcon(ai));
-		name.setText(Html.fromHtml("<h3>" + pm.getApplicationLabel(ai) + "</h3>" + 
-				"<h7>" + ai.packageName + "<br/>" + version + "<br/>" + app_date + "</h7>"));
 
+		// Get the app icon. Try to get the hires one.
+		Drawable d;
+		Intent intent = pm.getLaunchIntentForPackage(app_package);
+		if ((Build.VERSION.SDK_INT > 11) && (intent != null)) {
+			ResolveInfo resolveInfo = pm.resolveActivity(intent, 0);
+			d = getAppIcon(resolveInfo);
+		} else {
+			d = pm.getApplicationIcon(ai);
+		}
+
+		ImageView image = (ImageView) view.findViewById(R.id.detail_image);
+		image.setImageDrawable(d);
+
+		// Get the app info.
+		TextView name = (TextView) view.findViewById(R.id.detail_app_name);
+	    name.setText(Html.fromHtml("<h3>" + pm.getApplicationLabel(ai) + "</h3>" + 
+				"<h7>" + ai.packageName + "<br/>" + version + "<br/>" + app_date + "</h7>"));
 		scroll.setVisibility(View.VISIBLE);
 	}
 
+    // This code is from: http://stackoverflow.com/questions/4600740/getting-app-icon-in-android
+	@SuppressLint("InlinedApi")
+	public Drawable getFullResDefaultActivityIcon() {
+		return getFullResIcon(Resources.getSystem(), android.R.mipmap.sym_def_app_icon);
+    }
+
+    public Drawable getFullResIcon(Resources resources, int iconId) {
+        Drawable d;
+        try {
+            ActivityManager activityManager = (ActivityManager) view.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+            int iconDpi = activityManager.getLauncherLargeIconDensity();
+            d = resources.getDrawableForDensity(iconId, iconDpi);
+        } catch (Resources.NotFoundException e) {
+            d = null;
+        }
+
+        return (d != null) ? d : getFullResDefaultActivityIcon();
+    }
+
+    public Drawable getFullResIcon(String packageName, int iconId) {
+        Resources resources;
+        try {
+            resources = view.getContext().getPackageManager().getResourcesForApplication(packageName);
+        } catch (PackageManager.NameNotFoundException e) {
+            resources = null;
+        }
+        if (resources != null) {
+            if (iconId != 0) {
+                return getFullResIcon(resources, iconId);
+            }
+        }
+        return getFullResDefaultActivityIcon();
+    }
+
+    public Drawable getFullResIcon(ResolveInfo info) {
+        return getFullResIcon(info.activityInfo);
+    }
+
+    public Drawable getFullResIcon(ActivityInfo info) {
+        Resources resources;
+        try {
+            resources = view.getContext().getPackageManager().getResourcesForApplication(info.applicationInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            resources = null;
+        }
+        if (resources != null) {
+            int iconId = info.getIconResource();
+            if (iconId != 0) {
+                return getFullResIcon(resources, iconId);
+            }
+        }
+        return getFullResDefaultActivityIcon();
+    }
+
+    private Drawable getAppIcon(ResolveInfo info) {
+        return getFullResIcon(info.activityInfo);
+    }
+    
     // This code is from: http://stackoverflow.com/questions/4421527/start-android-application-info-screen
     private static final String SCHEME = "package";
     private static final String APP_PKG_NAME_21 = "com.android.settings.ApplicationPkgName";
