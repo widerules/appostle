@@ -13,7 +13,8 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_marginBottom="4dp"
-	        android:layout_marginRight="4dp" >
+	        android:layout_marginRight="4dp"
+	        android:layout_marginEnd="4dp" >
 	
 	        <ImageView
 	            android:id="@+id/detail_image"
@@ -21,6 +22,7 @@
 	            android:layout_height="96dp"
 	            android:layout_gravity="center_vertical"
 	            android:layout_marginRight="11dp"
+	            android:layout_marginEnd="11dp"
 	            android:padding="4dp"
 	            android:src="@drawable/ic_launcher" />
 	
@@ -31,7 +33,7 @@
 	            android:layout_weight="1"
 	            android:lineSpacingExtra="10dp"
 	            android:lineSpacingMultiplier="0.4"
-	            android:text="@string/abs__action_menu_overflow_description" />
+	            android:text="@string/about_me" />
 
 	    </LinearLayout>
 	        <View
@@ -68,6 +70,7 @@
 	            android:layout_alignBottom="@+id/ViewInBrowser"
 	            android:layout_below="@id/separator"
 	            android:layout_toLeftOf="@+id/ViewInBrowser"
+	            android:layout_toStartOf="@+id/ViewInBrowser"
 	            android:entries="@array/languages"
 	            android:prompt="@string/choose_language" />
 
@@ -76,6 +79,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentRight="true"
+	            android:layout_alignParentEnd="true"
 	            android:layout_below="@id/separator"
 	            android:text="@string/view_in_browser" />
 
@@ -101,6 +105,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentTop="true"
 	            android:layout_toRightOf="@+id/ViewInPlayStoreButton"
+	            android:layout_toEndOf="@+id/ViewInPlayStoreButton"
 	            android:text="@string/amazon" />
 
 	        <Button
@@ -109,6 +114,7 @@
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentTop="true"
 	            android:layout_toRightOf="@+id/amazon"
+	            android:layout_toEndOf="@+id/amazon"
 	            android:text="@string/appbrain" />
 
 	        <Button
@@ -118,6 +124,7 @@
 	            android:layout_alignParentBottom="true"
 	            android:layout_below="@id/separator2"
 	            android:layout_toRightOf="@+id/OpenAppInfo"
+	            android:layout_toEndOf="@+id/OpenAppInfo"
 	            android:text="@string/certificate_title" />
 
 	    </RelativeLayout>

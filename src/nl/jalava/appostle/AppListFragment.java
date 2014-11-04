@@ -22,7 +22,10 @@ import java.util.List;
 import java.util.Vector;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -32,22 +35,18 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.MenuItem;
 
-public class AppListFragment extends SherlockFragment {
+public class AppListFragment extends Fragment {
 	final static String TAG = "APPLIST";
 	private final static String PREFS_APP_TYPE = "APP_TYPE";
 
@@ -102,9 +101,9 @@ public class AppListFragment extends SherlockFragment {
 		setRetainInstance(true);
 
 		// Add drop down list with app types to the actionbar.
-		ActionBar bar = getSherlockActivity().getSupportActionBar();
-		ArrayAdapter<CharSequence> apptype = ArrayAdapter.createFromResource(bar.getThemedContext(), R.array.app_types, R.layout.sherlock_spinner_item);
-		apptype.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		ActionBar bar = getActivity().getActionBar();
+		ArrayAdapter<CharSequence> apptype = ArrayAdapter.createFromResource(bar.getThemedContext(), R.array.app_types, android.R.layout.simple_spinner_item);
+		apptype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		bar.setListNavigationCallbacks(apptype, new ActionBar.OnNavigationListener() {
 			// Update app list with chosen app type.
@@ -119,7 +118,7 @@ public class AppListFragment extends SherlockFragment {
 
 		// Hide title if screen width is too small.
 		DisplayMetrics displaymetrics = new DisplayMetrics();
-		getSherlockActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 		if (displaymetrics.widthPixels <= 480) bar.setDisplayShowTitleEnabled(false);
 		
 		// Make list clickable and fast scrollable.
@@ -247,7 +246,8 @@ public class AppListFragment extends SherlockFragment {
 			// Fill the detail view if available.
 			FragmentManager fm = getFragmentManager();
 			if (fm != null) {
-				DetailFragment det = (DetailFragment) fm.findFragmentById(R.id.app_detail);
+				DetailFragment det;
+				det = (DetailFragment) fm.findFragmentById(R.id.app_detail);
 				if (det != null && det.isVisible()) {
 					det.fillDetail(adapter.data[0].packageName, adapter.data[0].date); // TODO: check data.
 				}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Jeffrey Rusterholz
+ * Copyright (C) 2014 Jeffrey Rusterholz
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,15 @@
  */
 package nl.jalava.appostle;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
-public class MainActivity extends SherlockFragmentActivity implements AppListFragment.OnItemSelectedListener {
+public class MainActivity extends Activity implements AppListFragment.OnItemSelectedListener {
 	private Context context;
 
 	@Override
@@ -58,7 +57,7 @@ public class MainActivity extends SherlockFragmentActivity implements AppListFra
 
 	@Override
 	public void onAppSelected(App app) {
-	    DetailFragment fragment = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.app_detail);
+	    DetailFragment fragment = (DetailFragment) getFragmentManager().findFragmentById(R.id.app_detail);
         if (fragment != null && fragment.isInLayout()) {
         	fragment.fillDetail(app.packageName, app.date);
         } else {

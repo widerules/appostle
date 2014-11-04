@@ -15,7 +15,6 @@
  */
 package nl.jalava.appostle;
 
-import nl.jalava.appostle.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;

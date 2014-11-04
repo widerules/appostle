@@ -10,7 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.ComponentName;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,9 +40,8 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockFragment;
 
-public class DetailFragment extends SherlockFragment {
+public class DetailFragment extends Fragment {
 	private final static String TAG = "DETAIL_FRAGMENT";
 	private final static String PREFS_LOCALE = "LC";
 	
@@ -83,7 +82,7 @@ public class DetailFragment extends SherlockFragment {
 		languageSpinner.setSelection(p);	
 
 		
-		// Handle choosen language.
+		// Handle chosen language.
 		languageSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View arg1, int arg2, long arg3) {

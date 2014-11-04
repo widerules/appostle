@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Jeffrey Rusterholz
+ * Copyright (C) 2014 Jeffrey Rusterholz
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,12 @@
  */
 package nl.jalava.appostle;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.MenuItem;
 
-public class DetailActivity extends SherlockFragmentActivity {
+public class DetailActivity extends Activity {
 	public static final String PACKAGE_NAME = "package_name";
 	public static final String PACKAGE_DATE = "package_date";
 
@@ -39,11 +38,11 @@ public class DetailActivity extends SherlockFragmentActivity {
 	    	return;
 	    }
 	
-	    detail = (DetailFragment) getSupportFragmentManager().findFragmentById(R.id.app_detail);
+	    detail = (DetailFragment) getFragmentManager().findFragmentById(R.id.app_detail);
 	    
 	    if (detail == null) {
 	    	detail = new DetailFragment();
-	    	getSupportFragmentManager().beginTransaction().add(android.R.id.content, detail).commit();
+	    	getFragmentManager().beginTransaction().add(android.R.id.content, detail).commit();
 	    }
 	    
 	    // Get name and date from the extras bundle.
@@ -52,7 +51,7 @@ public class DetailActivity extends SherlockFragmentActivity {
 	    package_date = extra.getString(PACKAGE_DATE);
   
 	    // Activate back button.
-	    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	    getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	// Handle the back button.
