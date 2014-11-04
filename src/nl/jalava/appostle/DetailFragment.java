@@ -21,7 +21,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -249,7 +248,6 @@ public class DetailFragment extends Fragment {
 	}
 
     // This code is from: http://stackoverflow.com/questions/4600740/getting-app-icon-in-android
-	@SuppressLint("InlinedApi")
 	public Drawable getFullResDefaultActivityIcon() {
 		return getFullResIcon(Resources.getSystem(), android.R.mipmap.sym_def_app_icon);
     }
@@ -313,7 +311,6 @@ public class DetailFragment extends Fragment {
     private static final String APP_DETAILS_PACKAGE_NAME = "com.android.settings";
     private static final String APP_DETAILS_CLASS_NAME = "com.android.settings.InstalledAppDetails";
 
-    @SuppressLint("InlinedApi")
 	private static void showInstalledAppDetails(Context context, String packageName) {
         Intent intent = new Intent();
         final int apiLevel = Build.VERSION.SDK_INT;

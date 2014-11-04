@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -154,7 +153,6 @@ public class AppListFragment extends Fragment {
 	    return true;
 	}
 	
-	@SuppressLint("NewApi")
 	private void updateApps() {
 
 		List<PackageInfo> apps = pm.getInstalledPackages(0);
